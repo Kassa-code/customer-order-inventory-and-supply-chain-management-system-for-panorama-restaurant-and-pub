@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+ <!-- Insert CSS and head JS here -->
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+     <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+     <!-- Bootstrap Navigation Bar End-->
+ 
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12 fw-bold header p-2">
+                <h2> <i class="fa-solid fa-user-tie"></i> Employee Management</h2>
+            </div>
+        </div><br>
+
+
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button trigger offcanvas -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasEmployeeForm">
+                        <i class="fa-solid fa-user-plus"></i> NEW EMPLOYEE
+                    </button>
+                    <!-- Helping text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new employee</small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-script table-container table-bordered" id="tableEmployee">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Photo</th>
+                                    <th>Full Name</th>
+                                    <th>NIC</th>
+                                    <th>Mobile No</th>
+                                    <th>Gender</th>
+                                    <th>Designation</th>
+                                    <th>Status</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableEmployeeBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Employee Status Icons Explanation (Inside the Card Footer) -->
+                    <div class="card-footer text-center">
+                        <!-- &nbsp; adds space, | is a separator, and another &nbsp; ensures spacing on both sides -->
+                        <i class="fa-solid fa-user-tie fa-lg text-success"></i> <span class="ms-2">Working</span>
+                        &nbsp;
+                        <i class="fa-solid fa-user-tie fa-lg text-warning"></i> <span class="ms-2">Resigned</span>
+                        &nbsp;
+                        <i class="fa-solid fa-user-tie fa-lg text-danger"></i> <span class="ms-2">Removed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Form Off canvas -->
+    <div class="offcanvas offcanvas-end" style="width: 60%;" tabindex="-1" id="offcanvasEmployeeForm">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100" ><i
+                            class="fa-solid fa-user-tie"></i> Employee Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Actions / methods -->
+                            <form id="formEmployee" onsubmit="return false">
+                                <!-- Required mark start -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold text-end">
+                                        <p>Required <span class="text-danger">*</span></p>
+                                    </div>
+                                </div>
+                                <!-- Required mark end -->
+
+                                <!-- Full name start -->
+                                <div class="row mt-2 align-items-start">
+                                
+                                    <!-- Full Name Field -->
+                                    <div class="col-6">
+                                        <label for="textFullName" class="form-label fw-bold">Full Name : <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textFullName" placeholder="Enter Full Name" required
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Please Enter Valid Full Name">
+                                    </div>
+                                
+                                    <!-- Photo Buttons -->
+                                    <div class="col-3">
+                                        <label class="form-label fw-bold">Employee Photo :</label>
+                                        <div class="d-flex gap-2">
+                                            
+                                            <button onclick="empPhotoInput.click()" type="button" class="custom-btn btn btn-outline-primary btn-sm">
+                                                <i class="fa fa-upload fa-sm"></i> Select
+                                            </button>
+                                
+                                            <button type="button" class="custom-btn btn btn-outline-danger btn-sm" onclick="clearEmployeePhoto()" >
+                                                <i class="fa fa-trash-alt fa-sm"></i> Clear
+                                            </button>
+
+                                            <input type="file" class="form-control d-none" id="empPhotoInput"
+                                                onchange="fileValidator(this,'employee','emp_photo',empPhotoPreview)">
+                                        </div>
+                                    </div>
+                                
+                                    <!-- Photo Preview -->
+                                    <div class="col-3 text-end">
+                                        <img id="empPhotoPreview" src="/images/profile.png" alt="Preview" class="w-50 h-50 rounded-circle ">
+
+                                    </div>
+                                
+                                </div>
+                                <!-- Full name end -->
+  
+
+                                <!-- Calling name & Nic start -->
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="textCallingName" class="form-label fw-bold">
+                                            Calling Name : <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="textCallingName"
+                                            placeholder="Enter Calling Name" list="dlCallingName" required
+                                            onchange="callingNameValidator(this)" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" data-bs-title="Please Enter Valid Calling Name">
+                                        <datalist id="dlCallingName">
+                                            <option value="Part-1"></option>
+                                            <option value="Part-2"></option>
+                                            <option value="Part-3"></option>
+                                        </datalist>
+                                    </div>
+                                    <div class="col">
+                                        <label for="textNIC" class="form-label fw-bold">Enter Valid NIC : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textNIC"
+                                            placeholder="Enter Valid NIC" required onkeyup="nicValidator(this)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Please Enter Valid NIC">
+                                    </div>
+                                </div>
+                                <!-- Calling name & Nic end -->
+
+                                <!-- Gender & DOB start -->
+                                <div class="row mt-2">
+                                    <div class="col-3">
+                                        <label for="radioMale" class="form-label fw-bold">Gender :
+                                            <span class="text-danger">*</span> </label>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" required name="Gender" class="form-check-input"
+                                            id="radioMale" onchange="employee.gender=this.value;" value="Male">
+                                            <label for="radioMale" class="form-check-label fw-bold">Male</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" required name="Gender" class="form-check-input"
+                                            id="radioFemale" onchange="employee.gender=this.value;" value="Female">
+                                            <label for="radioFemale" class="form-check-label fw-bold">Female</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3 fw-bold">
+                                        <label for="dtDob" class="form-label">Date of Birth :
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-3 fw-bold">
+                                        <input onkeydown="return false"
+                                            onchange="dateElementValidator(this,'employee','dob')" type="date"
+                                            id="dtDob" required class="form-control" name="dtDob"
+                                            placeholder="Enter Date of Birth">
+                                    </div>
+
+                                </div>
+                                <!-- Gender & DOB end -->
+
+                                <!-- Email & Civil Status Start -->
+                                <div class="row mt-2">
+                                    <div class="col fw-bold">
+                                        <label for="textEmail" class="form-label">Email : <span
+                                        class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col fw-bold">
+                                        <label for="selectCivilStatus" class="form-label">Civil Status : <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <input type="text" class="form-control" id="textEmail" name="textEmail"
+                                            placeholder="Enter Email" required
+                                            onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}[@][a-z]{4,8}[.][a-z]{2,3}$','employee','email')"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Please Enter Valid Email">
+                                    </div>
+                                    <div class="col">
+                                        <select name="selectCivilStatus" class="form-select" id="selectCivilStatus"
+                                            required
+                                            onchange="selectStaicElementValidator(this,'employee','civilstatus')">
+                                            <option value="" disabled selected>Select Civil Status</option>
+                                            <option value="single">Single</option>
+                                            <option value="married">Married</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Email & Civil Status End -->
+
+                                <!-- Designation & Employee Status Start -->
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="selectDesignation" class="form-label fw-bold">Select Designation :
+                                            <span class="text-danger">*</span></label>
+                                        <select name="selectDesignation" id="selectDesignation" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'employee','designation_id')">
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="selectEmpStatus" class="form-label fw-bold">Select Employee Status :
+                                            <span class="text-danger">*</span></label>
+                                        <select name="selectEmpStatus" id="selectEmpStatus" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'employee','employeestatus_id')">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Designation & Employee Status End -->
+
+                                <!-- Mobile NO & land No Start -->
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="textMobile" class="form-label fw-bold">Mobile Number : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" required placeholder="Enter Mobile Number" id="textMobile"
+                                            class="form-control"
+                                            onkeyup="commonTextValidator(this,'^[0][7][01245678][0-9]{7}$','employee','mobileno')"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Please Enter Valid Mobile Number">
+                                    </div>
+                                    <div class="col">
+                                        <label for="textLand" class="form-label fw-bold">Land Number : </label>
+                                        <input type="text" placeholder="Enter Land Number" id="textLand"
+                                            class="form-control"
+                                            onkeyup="commonTextValidator(this,'^[0][123456789][0-9]{8}$','employee','landno')">
+                                    </div>
+                                </div>
+                                <!-- Mobile NO & land No End -->
+
+                                <!-- Address Note Start -->
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="textAddress" class="form-label col-4 fw-bold">Address: <span
+                                                class="text-danger">
+                                                *</span>
+                                        </label>
+
+                                        <textarea type="text" class="form-control" id="textAddress"
+                                            placeholder="Enter Address" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Please Enter Address" required
+                                            onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','employee','address')"></textarea>
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="textNote" class="form-label col-4 fw-bold">Note :</label>
+
+                                        <textarea type="text" class="form-control" id="textNote" placeholder="Note"
+                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                            data-bs-title="Please Enter Note"
+                                            onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','employee','note')"></textarea>
+
+                                    </div>
+
+                                </div> <br> <br>
+                                <!-- Address Note End -->
+
+                                <!-- Add/Update/Delete/Submit Buttons Start -->
+                                <div class="row mt-2">
+
+                                    <div class="col-3 text-start">
+                                        <button type="button" class=" custom-btn btn btn-outline-info btn-sm fw-bold" onclick="clearEmployeeForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <div class="col-9 text-end">
+
+                                        <button type="submit" id="buttonUpdate" onclick="buttonEmployeeUpdate()"
+                                            class=" custom-btn btn btn-outline-warning me-2 fw-bold btn-sm">
+                                            <i class="fa-solid fa-user-check"></i> Update
+                                        </button>
+
+
+                                        <button type="submit" id="buttonSubmit" class=" custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonEmployeeSubmit(this)">
+                                            Submit   <i class="fa-solid fa-paper-plane fa-sm"></i></i></button>
+                                    </div>
+                                </div>
+                                <!-- Add/Update/Delete/Submit Buttons End -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+
+
+    <!-- Off-Canvas for View Employee Details -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasEmployeeView"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="offcanvas-header d-flex justify-content-center w-100">
+            <h5 class="offcanvas-title text-center flex-grow-1"><i class="fa-solid fa-user-tie"></i> View Employee
+                Details</h5>
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-container table-bordered" id="tableEmployeeView">
+                        <tr>
+                            <th>Full Name</th>
+                            <td id="tdEmployeeFullName"></td>
+                        </tr>
+                        <tr>
+                            <th>Calling Name</th>
+                            <td id="tdEmployeeCallingName"></td>
+                        </tr>
+                        <tr>
+                            <th>NIC</th>
+                            <td id="tdEmployeeNic"></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td id="tdEmployeeGender"></td>
+                        </tr>
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td id="tdEmployeeDob"></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td id="tdEmployeeEmail"></td>
+                        </tr>
+                        <tr>
+                            <th>Civil Status</th>
+                            <td id="tdEmployeeCivilStatus"></td>
+                        </tr>
+                        <tr>
+                            <th>Designation</th>
+                            <td id="tdEmployeeDesignation"></td>
+                        </tr>
+                        <tr>
+                            <th>Employee Status</th>
+                            <td id="tdEmployeeEmpStatus"></td>
+                        </tr>
+                        <tr>
+                            <th>Mobile No</th>
+                            <td id="tdEmployeeMobileno"></td>
+                        </tr>
+                        <tr>
+                            <th>Land No</th>
+                            <td id="tdEmployeeLandno"></td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td id="tdEmployeeAddress"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer text-end p-3">
+                    <button class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                        <i class="fa-solid fa-print fa-sm"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/uicontroller/employee.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+
+
+</body>
+
+</html>

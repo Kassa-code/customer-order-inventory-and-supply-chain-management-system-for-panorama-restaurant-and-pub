@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <!-- Insert CSS and head JS here -->
+    <head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+<head>
+   
+    <!-- Link Css File -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbarSupportedContent" data-bs-offset="80" tabindex="0">
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand text-uppercase" href="#">
+                <span class="fw-semibold fs-5">PANORAMA</span><br>
+                <span class="fst-italic fs-6">Restaurant Pub</span>
+            </a>
+
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item px-3">
+                        <a class="nav-link fw-bold active" href="#homeSection">Home</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link fw-bold" href="#aboutSection">About Us</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link fw-bold" href="#contactSection">Contact Us</a>
+                    </li>
+                </ul>
+                <!-- Right-Aligned Login -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Dashboard body start -->
+    <div class="container-fluid" style="margin-top: 100px;">
+
+        <!-- Home Section -->
+        <section id="homeSection" class="mb-5 px-4">
+            <!-- Welcome Card -->
+            <div class="card text-center bg-light border-0 shadow-sm mb-5">
+                <div class="card-body py-5">
+                    <h1 class="card-title display-5 fw-bold text-uppercase">Welcome to PANORAMA</h1>
+                    <p class="card-text fs-5 fst-italic text-muted">Your one-stop destination for dining, drinks, and good vibes.</p>
+                    <a href="#" class="btn btn-dark px-4 py-2 mt-3">Explore Our Menu</a>
+                </div>
+            </div>
+
+            <!-- Features Cards -->
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-utensils fa-3x mb-3 text-danger"></i>
+                            <h5 class="card-title fw-bold">Delicious Food</h5>
+                            <p class="card-text text-muted">Taste our chef's signature dishes, cooked fresh every day.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-mug-hot fa-3x mb-3 text-warning"></i>
+                            <h5 class="card-title fw-bold">Cozy Atmosphere</h5>
+                            <p class="card-text text-muted">Relax and unwind in our warm and inviting space.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-music fa-3x mb-3 text-primary"></i>
+                            <h5 class="card-title fw-bold">Live Music</h5>
+                            <p class="card-text text-muted">Enjoy live performances and events every weekend.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="aboutSection" class="my-5 px-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold">About Us</h3>
+                    <p class="card-text text-muted">
+                        At PANORAMA, we blend modern flavors with timeless hospitality. Since our founding, we've built a space where foodies, friends, and families gather to enjoy great meals and memorable moments.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section id="contactSection" class="my-5 px-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title fw-bold">Contact Us</h3>
+                    <p class="card-text text-muted">📍 123 Main Street, Your City<br>📞 +94 77 123 4567<br>✉️ contact@panorama.lk</p>
+                    <a href="#" class="btn btn-outline-dark mt-2">Send a Message</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!-- Dashboard body end -->
+</body>
+</html>

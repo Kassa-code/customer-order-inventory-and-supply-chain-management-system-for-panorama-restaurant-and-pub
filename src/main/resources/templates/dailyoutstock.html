@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End-->
+
+
+    <div class="container-fluid">
+    
+        <!-- Header Row -->
+        <div class="row mt-2 p-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    Daily Stock Out Management
+                </h2>
+            </div>
+        </div><br>
+    
+        <!-- Add New Stock Out Button Card -->
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button to open the offcanvas form -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDailyOutStockForm">
+                        <i class="fa-solid fa-plus"></i> ADD A NEW STOCK OUT
+                    </button>
+                    <!-- Helper text under the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new stock out</small>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Start Table Area -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Daily Out Stock Data Table -->
+                        <table class="table table-hover table-script table-container table-bordered"
+                            id="tableDailyOutStock">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Batch No</th>
+                                    <th>Item</th>
+                                    <th>Out Qty</th>
+                                    <th>In Item</th>
+                                    <th>In Qty</th>
+                                </tr>
+                            </thead>
+                            <!-- Dynamic table content will be appended here -->
+                            <tbody class="custom-tbody fw-bold" id="tableDailyOutStockBody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- End Table Area -->
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    
+
+
+    <!-- Form Offcanvas for Daily Stock Out Entry -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasDailyOutStockForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+    
+                <!-- Offcanvas Header -->
+                <div class="offcanvas-header" aria-labelledby="offcanvasExampleLabel">
+                    <h5 class="offcanvas-title text-center w-100" id="offcanvasExampleLabel">
+                        <i class="fa-solid fa-calendar-days"></i> Daily Stock Out Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <!-- Offcanvas Body -->
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+    
+                            <!-- Daily Out Stock Form -->
+                            <form id="formDailyOutStock" onsubmit="return false">
+    
+                                <!-- Required Fields Indicator -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">Required <span class="text-danger">*</span></p>
+                                    </div>
+                                </div>
+    
+                                <!-- Out Date and Out Item Fields -->
+                                <div class="row mt-2">
+                                    <!-- Date Field -->
+                                    <div class="col-6 fw-bold">
+                                        <label for="dteOutDate" class="form-label">Date : <span
+                                                class="text-danger">*</span></label>
+                                        <input onkeydown="return false"
+                                            onchange="dateElementValidator(this,'dailyOutStock','out_date')" type="date"
+                                            id="dteOutDate" required class="form-control" name="dteOutDate">
+                                    </div>
+    
+                                    <!-- Out Item Selector -->
+                                    <div class="col-6 fw-bold">
+                                        <label for="selectOutItem" class="form-label fw-bold">Out Item : <span
+                                                class="text-danger">*</span></label>
+                                        <select id="selectOutItem" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'dailyOutStock','from_ingredients_id'); filterFromBatch();">
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <!-- Batch No and Out Qty Fields -->
+                                <div class="row mt-2">
+                                    <!-- Batch Selector -->
+                                    <div class="col-6 fw-bold">
+                                        <label for="selectBatchNo" class="form-label fw-bold">Batch No : <span
+                                                class="text-danger">*</span></label>
+                                        <select id="selectBatchNo" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'dailyOutStock','from_inventory_id')">
+                                        </select>
+                                    </div>
+    
+                                    <!-- Out Quantity Input -->
+                                    <div class="col-6">
+                                        <label for="textOutQty" class="form-label fw-bold">Out Qty : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="textOutQty" class="form-control"
+                                            placeholder="Enter Out Quantity" required
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','dailyOutStock','out_qty')">
+                                    </div>
+                                </div>
+    
+                                <!-- In Item and In Qty Fields -->
+                                <div class="row mt-2">
+                                    <!-- In Item Selector -->
+                                    <div class="col-6 fw-bold">
+                                        <label for="selectInItem" class="form-label fw-bold">In Item : <span
+                                                class="text-danger">*</span></label>
+                                        <select id="selectInItem" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'dailyOutStock','to_ingredients_id')">
+                                        </select>
+                                    </div>
+    
+                                    <!-- In Quantity Input -->
+                                    <div class="col-6">
+                                        <label for="textInQty" class="form-label fw-bold">In Qty : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="textInQty" class="form-control"
+                                            placeholder="Enter In Quantity" required
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','dailyOutStock','in_qty')">
+                                    </div>
+                                </div><br>
+    
+                                <!-- Form Action Buttons -->
+                                <div class="row mt-4">
+                                    <!-- Clear Button -->
+                                    <div class="col-6 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                            onclick="clearOutStockForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+    
+                                    <!-- Update and Submit Buttons -->
+                                    <div class="col-6 text-end">
+                                        <button type="submit" id="buttonSubmit"
+                                            class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonOutStockSubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+    
+                            </form> <!-- End Form -->
+                        </div>
+                    </div>
+                </div> <!-- End Offcanvas Body -->
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/dailyoutstock.js"></script>
+   
+</body>
+
+</html>

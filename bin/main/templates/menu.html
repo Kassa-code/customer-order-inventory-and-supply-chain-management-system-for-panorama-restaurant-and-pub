@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+
+        <!-- Header row -->
+        <div class="row">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-file-contract"></i> Menu Management</h2> <!-- Title with icon -->
+            </div>
+        </div><br>
+
+        <!-- Card for Add New Menu button -->
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button to open offcanvas menu form -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasMenuForm">
+                        <i class="fa-solid fa-plus"></i> ADD NEW MENU
+                    </button>
+                    <!-- Help text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new menu</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table card displaying the list of menus -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-script table-container table-bordered" id="tableMenu">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th> <!-- Serial number -->
+                                    <th>Photo</th> <!-- Menu photo -->
+                                    <th>Name</th> <!-- Menu name -->
+                                    <th>Price</th> <!-- Menu price -->
+                                    <th>Status</th> <!-- Status with icons (Available, etc.) -->
+                                    <th>Modify</th> <!-- Buttons for edit/delete -->
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableMenuBody">
+                                <!-- Dynamic rows populated here via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Legend explaining status icons -->
+                    <div class="card-footer text-center">
+                        <i class="fa-solid fa-file-contract fa-lg text-success"></i> <span class="ms-2">Available</span>
+                        &nbsp;
+                        <i class="fa-solid fa-file-contract fa-lg text-warning"></i> <span class="ms-2">Out of
+                            Stock</span>
+                        &nbsp;
+                        <i class="fa-solid fa-file-contract fa-lg text-danger"></i> <span
+                            class="ms-2">Discontinued</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Offcanvas Form for Menu Details -->
+    <div class="offcanvas offcanvas-end" style="width: 100%;" tabindex="-1" id="offcanvasMenuForm">
+        <div class="offcanvas-header">
+            <!-- Title with icon centered -->
+            <h5 class="offcanvas-title text-center w-100"><i class="fa-solid fa-file-contract"></i> Menu Details</h5>
+            <!-- Close button for offcanvas -->
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Main form for menu (prevent default submit) -->
+                    <form id="formMenu" onsubmit="return false">
+
+                        <!-- Required field indicator -->
+                        <div class="row mt-2">
+                            <div class="col-12 fw-bold text-end">
+                                <p>Required <span class="text-danger">*</span></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Main menu details inputs -->
+                            <div class="col-12">
+                                <div class="row mt-2 align-items-start">
+
+                                    <!-- Menu Name input with validator on keyup -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold" for="textMenuName">Name : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textMenuName"
+                                            placeholder="Enter Liquor Menu Name"
+                                            onkeyup="commonTextValidator(this,'^([A-Za-z0-9\\/]{1,20}[\\s])+([A-Za-z0-9]{2,20})$','menu','name')"
+                                            required />
+                                    </div>
+
+                                    <!-- Price input with validator on keyup -->
+                                    <div class="col">
+                                        <label for="textPrice" class="form-label fw-bold">Price : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="textPrice" class="form-control" placeholder="Enter Price"
+                                            required
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','menu','price')">
+                                    </div>
+
+                                    <!-- Status dropdown with change validator -->
+                                    <div class="col">
+                                        <label for="selectStatus" class="form-label fw-bold">Status : <span
+                                                class="text-danger">*</span></label>
+                                        <select name="selectStatus" id="selectStatus" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'menu','menu_status_id')">
+                                        </select>
+                                    </div>
+
+                                    <!-- Photo selection and clear buttons -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Menu Photo : <span
+                                                class="text-danger">*</span></label>
+                                        <div class="d-flex gap-2">
+                                            <!-- Button triggers hidden file input -->
+                                            <button onclick="menuPhotoInput.click()" type="button"
+                                                class="custom-btn btn btn-outline-primary btn-sm">
+                                                <i class="fa fa-upload fa-sm"></i> Select
+                                            </button>
+
+                                            <!-- Button to clear selected photo -->
+                                            <button type="button" class="custom-btn btn btn-outline-danger btn-sm"
+                                                onclick="clearMenuPhoto()">
+                                                <i class="fa fa-trash-alt fa-sm"></i> Clear
+                                            </button>
+
+                                            <!-- Hidden file input for photo selection -->
+                                            <input type="file" class="form-control d-none" id="menuPhotoInput"
+                                                onchange="fileValidator(this,'menu','menu_photo',menuPhotoPreview)">
+                                        </div>
+                                    </div>
+
+                                    <!-- Preview for the selected menu photo -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold d-block">Photo Preview:</label>
+                                        <img id="menuPhotoPreview" src="/images/foodplate.png" alt="Preview"
+                                            class="w-50 h-50 rounded-circle">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <!-- Inner Sub Menu Item Form (left column) -->
+                            <div class="col-6">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold text-center">Sub Menu Item Form</h5><br>
+
+                                        <div class="row mt-1">
+                                            <!-- Sub Menu select dropdown -->
+                                            <div class="col-8">
+                                                <label for="selectSubMenu" class="form-label fw-bold">Sub Menu : <span
+                                                        class="text-danger">*</span></label>
+                                                <select name="selectSubMenu" id="selectSubMenu" class="form-select"
+                                                    onchange="selectDynamicElementValidator(this,'menuHasSubMenu','submenu_id');checkItemExt();">
+                                                </select>
+                                            </div>
+
+                                            <!-- Unit price input -->
+                                            <div class="col-4">
+                                                <label for="textSubUnitPrice" class="form-label fw-bold">Unit Price :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textSubUnitPrice"
+                                                    placeholder="Enter Unit Price"
+                                                    onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,10})|([1-9][0-9]{0,10}[.]{0,1}[0-9]{2}))$','menuHasSubMenu','price')">
+                                            </div>
+                                        </div><br>
+
+                                        <div class="row mt-1">
+                                            <!-- Quantity input -->
+                                            <div class="col-8">
+                                                <label for="textSubQuantity" class="form-label fw-bold">Quantity : <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textSubQuantity"
+                                                    placeholder="Enter Quantity"
+                                                    onkeyup="commonTextValidator(this, '^([0-9]+(\.[0-9]{1,4})?)$', 'menuHasSubMenu', 'qty');calculateLinePrice()">
+                                            </div>
+
+                                            <!-- Line price input -->
+                                            <div class="col-4">
+                                                <label for="textSubLinePrice" class="form-label fw-bold">Line Price :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textSubLinePrice"
+                                                    placeholder="Enter Line Price"
+                                                    onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,10})|([1-9][0-9]{0,10}[.]{0,1}[0-9]{2}))$','menuHasSubMenu','line_price')">
+                                            </div>
+                                        </div><br>
+
+                                        <!-- Inner form buttons -->
+                                        <div class="row mt-1">
+                                            <!-- Clear inner form button -->
+                                            <div class="col-3 text-start">
+                                                <button type="button" class="custom-btn btn btn-info btn-sm fw-bold"
+                                                    onclick="clearSubMenuInnerForm()">
+                                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                                </button>
+                                            </div>
+
+                                            <!-- Update and Add buttons -->
+                                            <div class="col-9 text-end">
+                                                <button type="submit" id="menuHasSubMenubuttonInnerUpdate"
+                                                    class="custom-btn btn btn-warning me-2 fw-bold btn-sm"
+                                                    onclick="buttonMenuHasSubMenuInnerUpdate(this)">
+                                                    <i class="fa-solid fa-edit fa-sm"></i> Update
+                                                </button>
+
+                                                <button type="button" id="menuHasSubMenubuttonInnerSubmit"
+                                                    class="custom-btn btn btn-success fw-bold btn-sm"
+                                                    onclick="buttonMenuHasSubMenuInnerSubmit(this)">
+                                                    <i class="fa-solid fa-plus fa-sm"></i> Add
+                                                </button>
+                                            </div>
+                                        </div> <br>
+
+                                        <!-- Inner Sub Menu Items Table -->
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <table class="table table-hover table-striped table-container"
+                                                    id="tableMenuHasSubMenuItem">
+                                                    <thead class="custom-thead fw-bold">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>U-Price</th>
+                                                            <th>Qty</th>
+                                                            <th>L-Price</th>
+                                                            <th>Modify</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="custom-tbody fw-bold"
+                                                        id="tableMenuHasSubMenuItemBody">
+                                                        <!-- Rows inserted dynamically here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inner Liquor Menu Item Form (right column) -->
+                            <div class="col-6">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold text-center">Liquor Menu Item Form</h5><br>
+
+                                        <div class="row mt-1">
+                                            <!-- Liquor Menu select dropdown -->
+                                            <div class="col-8">
+                                                <label for="selectLiquorMenu" class="form-label fw-bold">Liquor Menu :
+                                                    <span class="text-danger">*</span></label>
+                                                <select name="selectLiquorMenu" id="selectLiquorMenu"
+                                                    class="form-select"
+                                                    onchange="selectDynamicElementValidator(this,'menuHasLiquorMenu','liquormenu_id');checkLiquorMenuExt();">
+                                                </select>
+                                            </div>
+
+                                            <!-- Unit price input -->
+                                            <div class="col-4">
+                                                <label for="textLiquorUnitPrice" class="form-label fw-bold">Unit Price :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textLiquorUnitPrice"
+                                                    placeholder="Enter Unit Price"
+                                                    onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,10})|([1-9][0-9]{0,10}[.]{0,1}[0-9]{2}))$','menuHasLiquorMenu','price');calculateTotalPrice()">
+                                            </div>
+                                        </div><br>
+
+                                        <div class="row mt-1">
+                                            <!-- Quantity input -->
+                                            <div class="col-8">
+                                                <label for="textLiquorQuantity" class="form-label fw-bold">Quantity :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textLiquorQuantity"
+                                                    placeholder="Enter Quantity"
+                                                    onkeyup="commonTextValidator(this, '^([0-9]+(\.[0-9]{1,4})?)$', 'menuHasLiquorMenu', 'qty');calculateTotalPrice()">
+                                            </div>
+
+                                            <!-- Line price input -->
+                                            <div class="col-4">
+                                                <label for="textLiquorLinePrice" class="form-label fw-bold">Line Price :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textLiquorLinePrice"
+                                                    placeholder="Enter Line Price"
+                                                    onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,10})|([1-9][0-9]{0,10}[.]{0,1}[0-9]{2}))$','menuHasLiquorMenu','line_price')">
+                                            </div>
+                                        </div><br>
+
+                                        <!-- Inner form buttons -->
+                                        <div class="row mt-1">
+                                            <!-- Clear inner form button -->
+                                            <div class="col-3 text-start">
+                                                <button type="button" class="custom-btn btn btn-info btn-sm fw-bold"
+                                                    onclick="clearMenuHasLiquorMenuInnerForm()">
+                                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                                </button>
+                                            </div>
+
+                                            <!-- Update and Add buttons -->
+                                            <div class="col-9 text-end">
+                                                <button type="submit" id="menuHasLiquorMenubuttonInnerUpdate"
+                                                    class="custom-btn btn btn-warning me-2 fw-bold btn-sm"
+                                                    onclick="buttonMenuHasLiquorMenuInnerUpdate(this)">
+                                                    <i class="fa-solid fa-edit fa-sm"></i> Update
+                                                </button>
+
+                                                <button type="button" id="menuHasLiquorMenubuttonInnerSubmit"
+                                                    class="custom-btn btn btn-success fw-bold btn-sm"
+                                                    onclick="buttonMenuHasLiquorMenuInnerSubmit(this)">
+                                                    <i class="fa-solid fa-plus fa-sm"></i> Add
+                                                </button>
+                                            </div>
+                                        </div> <br>
+
+                                        <!-- Inner Liquor Menu Items Table -->
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <table class="table table-hover table-striped table-container"
+                                                    id="tableMenuHasLiquorMenuItem">
+                                                    <thead class="custom-thead fw-bold">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>U-Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>L-Price</th>
+                                                            <th>Modify</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="custom-tbody fw-bold"
+                                                        id="tableMenuHasLiquorMenuItemBody">
+                                                        <!-- Rows inserted dynamically here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><br><br>
+
+                        <!-- Main form action buttons -->
+                        <div class="row mt-2">
+
+                            <!-- Clear form button -->
+                            <div class="col-3 text-start">
+                                <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                    onclick="clearMenuForm()">
+                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                </button>
+                            </div>
+
+                            <!-- Update and Submit buttons -->
+                            <div class="col-9 text-end">
+                                <button type="submit" id="buttonUpdate" onclick="buttonMenuUpdate()"
+                                    class="custom-btn btn btn-outline-warning me-2 fw-bold btn-sm">
+                                    <i class="fa-solid fa-user-check"></i> Update
+                                </button>
+
+                                <button type="submit" id="buttonSubmit"
+                                    class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                    onclick="buttonMenuSubmit(this)">
+                                    Submit <i class="fa-solid fa-paper-plane fa-sm"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <!-- End of main form buttons -->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Off-Canvas Panel for Viewing Menu Details -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasMenuView"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+
+        <!-- Header with title and close button -->
+        <div class="offcanvas-header d-flex justify-content-center w-100">
+            <h5 class="offcanvas-title text-center flex-grow-1">
+                <i class="fa-solid fa-file-contract"></i> View Menu Details
+            </h5>
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+
+        <!-- Offcanvas body with card wrapping details -->
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-container table-bordered" id="tableMenuView">
+
+                        <!-- Display basic menu info -->
+                        <tr>
+                            <th>Name</th>
+                            <td id="tdName"></td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td id="tdPrice"></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td id="tdStatus"></td>
+                        </tr>
+
+                        <!-- Sub Menu Items Table -->
+                        <tr>
+                            <td colspan="2" class="table-responsive">
+                                <table class="table table-hover table-striped table-container"
+                                    id="printtableMenuHasSubMenuItem">
+                                    <thead class="custom-thead fw-bold">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>U-Price</th>
+                                            <th>Qty</th>
+                                            <th>L-Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="custom-tbody fw-bold" id="printtableMenuHasSubMenuItemBody">
+                                        <!-- Dynamic rows inserted here via JS -->
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!-- Liquor Menu Items Table -->
+                        <tr>
+                            <td colspan="2" class="table-responsive">
+                                <table class="table table-hover table-striped table-container"
+                                    id="printtableMenuHasLiquorMenuItem">
+                                    <thead class="custom-thead fw-bold">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>U-Price</th>
+                                            <th>Quantity</th>
+                                            <th>L-Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="custom-tbody fw-bold" id="printtableMenuHasLiquorMenuItemBody">
+                                        <!-- Dynamic rows inserted here via JS -->
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <!-- Footer with Print button -->
+                <div class="card-footer text-end p-3">
+                    <button class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                        <i class="fa-solid fa-print fa-sm"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+    <!-- JavaScript files for Menu Management-->
+    <script src="/uicontroller/menu.js"></script>
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+
+
+</body>
+
+</html>

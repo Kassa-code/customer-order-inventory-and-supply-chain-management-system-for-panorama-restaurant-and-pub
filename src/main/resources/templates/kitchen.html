@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+    <head>
+        <style>
+            .insufficient-stock {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+    
+            .low-stock {
+                background-color: #fff3cd;
+                color: #856404;
+            }
+        </style>
+    </head>
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ======================= Page Header Row ======================= -->
+        <!-- Row Start: Page Header -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-kitchen-set"></i> Kitchen And Bar Management</h2>
+            </div>
+        </div><br>
+        <!-- Row End: Page Header -->
+    
+        <!-- ======================= Add Button Section ======================= -->
+    
+        <!-- ======================= Table Display Section ======================= -->
+        <!-- Row Start: Data Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-script table-container table-bordered"  id="tableKitchen">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <!-- Table Headers -->
+                                    <th> # </th>
+                                    <th> Order No </th>
+                                    <th> Order Type </th>
+                                    <th> Order Status </th>
+                                    <th> Kitchen Status </th>
+                                    <th> Update </th>
+                                </tr>
+                            </thead>
+                            <!-- Table Body: Filled dynamically via JS -->
+                            <tbody class="custom-tbody fw-bold" id="tableKitchenBody">
+                                <!-- Item rows dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row End: Data Table -->
+    
+    </div>
+
+
+<!-- ======================= Offcanvas Main Order Form======================= -->
+<!-- Form Off canvas -->
+<div class="offcanvas offcanvas-end" style="width: 100%;" tabindex="-1" id="offcanvasKitchen">
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End-->
+
+    <!-- Offcanvas Header -->
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-center w-100">
+            <i class="fa-solid fa-kitchen-set"></i> Kitchen & Bar Details
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    
+
+    <!-- Offcanvas Body -->
+    <div class="offcanvas-body">
+        <div class="row">
+            <!-- Left Column: Submenu & Menu Lists -->
+            <div class="col-md-6">
+                <!-- Submenu List Card -->
+                <div class="card mb-3">
+                    <div class="card-title fw-bold text-center">
+                        <h5 class="mb-0"><i class="fas fa-hamburger me-2"></i>Order Item List</h5>
+                    </div><br>
+                    <div class="card-body p-2">
+                        <table class="table table-hover table-script table-container table-bordered mb-0">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Completed Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tBodyKitchenSubmenus"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+               
+            </div>
+
+            <!-- Right Column: Ingredient List -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-title fw-bold text-center">
+                        <h5 class="mb-0"><i class="fas fa-pepper-hot me-2"></i>Available Ingredients</h5>
+                    </div><br>
+                    <div class="card-body p-2">
+                        <table class="table table-hover table-script table-container table-bordered mb-0">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item</th>
+                                    <th>Required Qty</th>
+                                    <th>Available Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tBodyInventory"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> <br>
+        <div class="row mt-2">
+        
+            <div class="col-12 text-end">
+        
+                <button type="button" id="buttonSubmit" class=" custom-btn btn btn-outline-success fw-bold btn-sm"
+                    onclick="orderConfirm()">
+                    Confirm <i class="fa-solid fa-paper-plane fa-sm"></i></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/kitchen.js"></script>
+
+</body>
+
+</html>

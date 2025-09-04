@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12 fw-bold header p-2">
+                <h2> <i class="fa-solid fa-paste"></i> Sub Menu Management</h2>
+            </div>
+        </div><br>
+
+
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button trigger offcanvas -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasSubMenuForm">
+                        <i class="fa-solid fa-plus"></i> ADD NEW SUB MENU
+                    </button>
+                    <!-- Helping text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new sub menu</small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-script table-container table-bordered" id="tableSubMenu">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableSubMenuBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Employee Status Icons Explanation (Inside the Card Footer) -->
+                    <div class="card-footer text-center">
+                        <!-- &nbsp; adds space, | is a separator, and another &nbsp; ensures spacing on both sides -->
+                        <i class="fa-solid fa-paste fa-lg text-success"></i> <span class="ms-2">Available</span>
+                        &nbsp;
+                        <i class="fa-solid fa-paste fa-lg text-warning"></i> <span class="ms-2">Out of Stock</span>
+                        &nbsp;
+                        <i class="fa-solid fa-paste fa-lg text-danger"></i> <span class="ms-2">Discontinued</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Form Off canvas -->
+    <div class="offcanvas offcanvas-end" style="width: 100%;" tabindex="-1" id="offcanvasSubMenuForm">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-center w-100"><i class="fa-solid fa-paste"></i> Sub Menu Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Actions / methods -->
+                    <form id="formSubMenu" onsubmit="return false">
+                        <!-- Required mark start -->
+                        <div class="row mt-2">
+                            <div class="col-12 fw-bold text-end">
+                                <p>Required <span class="text-danger">*</span></p>
+                            </div>
+                        </div>
+                        <!-- Required mark end -->
+
+                        <div class="row">
+                            <!-- Main form Start -->
+                            <div class="col-6">
+                                <!-- Submenu category sub category start -->
+                                <div class="row mt-2 align-items-start">
+
+                                    <!-- Category Field -->
+                                    <div class="col">
+                                        <label for="selectSubmenuCategory" class="form-label fw-bold">
+                                            Submenu Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="selectSubmenuCategory" required id="selectSubmenuCategory"
+                                            class="form-select" onchange="generateSubMenuName()">
+                                        </select>
+                                    </div>
+
+                                    <!--Sub Category Field -->
+
+                                    <div class="col">
+                                        <label for="selectSubmenuSubCategory" class="form-label fw-bold">
+                                            Sub Category : <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group">
+                                            <select name="selectSubmenuSubCategory" required
+                                                id="selectSubmenuSubCategory" class="form-select rounded-end-0"
+                                                onchange="selectDynamicElementValidator(this,'submenu','submenu_sub_category_id');generateSubMenuName()">
+                                            </select>
+
+                                            <span class="input-group-text text-success fw-bold rounded-start-0"
+                                                role="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasSubMenuSubCategoryForm"
+                                                style="cursor: pointer">
+                                                +
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Submenu category sub category end -->
+
+                                <!-- Category Size Price Start -->
+                                <div class="row mt-2">
+
+                                    <!-- Category Size -->
+                                    <div class="col">
+                                        <label for="selectCategorySize" class="form-label fw-bold">
+                                            Category Size : </label>
+                                        <select name="selectCategorySize" id="selectCategorySize" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'submenu','submenu_subcategory_type_id');generateSubMenuName()">
+                                        </select>
+                                    </div>
+
+                                    <!-- Price -->
+                                    <div class="col">
+                                        <label for="textPrice" class="form-label fw-bold">Price : <span
+                                                class="text-danger">*</span></label>
+
+                                        <input type="text" id="textPrice" class="form-control" placeholder="Enter Price"
+                                            required
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','submenu','submenu_price')">
+                                    </div>
+                                </div>
+                                <!-- Category Size Price End -->
+
+                                <!--  Status Name Start -->
+
+                                <div class="row mt-2">
+                                    <!-- Status -->
+                                    <div class="col">
+                                        <label for="selectStatus" class="form-label fw-bold">
+                                            Status : <span class="text-danger">*</span></label>
+                                        <select name="selectStatus" id="selectStatus" class="form-select"
+                                        onchange="selectDynamicElementValidator(this,'submenu','submenu_status_id');generateSubMenuName()">
+                                        </select>
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="form-label fw-bold" for="textSubMenuName">Sub Menu Name : <span
+                                                class="text-danger">*</span></label>
+                                        <!-- Item Name Input -->
+                                        <input type="text" class="form-control" id="textSubMenuName"
+                                            placeholder="Enter Sub Menu Name"
+                                            onkeyup="commonTextValidator(this,'^([A-Za-z0-9\\/]{1,20}[\\s])+([A-Za-z0-9]{2,20})$','submenu','name')"
+                                            required />
+                                    </div>
+                                </div><br>
+
+                                <!--  Status Name End -->
+
+                                <!-- Submenu photo start -->
+                                <div class="row mt-2">
+                                    <!-- Photo Buttons -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Sub Menu Photo : <span
+                                                class="text-danger">*</span></label>
+                                        <div class="d-flex gap-2">
+
+                                            <button onclick="submenuPhotoInput.click()" type="button"
+                                                class="custom-btn btn btn-outline-primary btn-sm">
+                                                <i class="fa fa-upload fa-sm"></i> Select
+                                            </button>
+
+                                            <button type="button" class="custom-btn btn btn-outline-danger btn-sm" onclick="clearSubMenuPhoto()">
+                                                <i class="fa fa-trash-alt fa-sm"></i> Clear
+                                            </button>
+
+                                            <input type="file" class="form-control d-none" id="submenuPhotoInput"
+                                                onchange="fileValidator(this,'submenu','submenu_photo',submenuPhotoPreview)">
+                                        </div>
+                                    </div>
+
+                                    <!-- Photo Preview -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold d-block">Photo Preview:</label>
+                                        <img id="submenuPhotoPreview" src="/images/foodplate.png" alt="Preview"
+                                            class="w-50 h-50 rounded-circle">
+                                    </div>
+                                </div>
+                                <!-- Submenu photo end -->
+                            </div>
+
+                            <!-- Inner form start -->
+                            <div class="col-6">
+                                <!-- Card Wrapper -->
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold text-center">Sub Menu Item Form</h5> <br>
+                                        <div class="row mt-1">
+
+                                            <!-- Item -->
+                                            <div class="col-8">
+                                                <label for="selectItems" class="form-label fw-bold">Item : <span
+                                                        class="text-danger">*</span></label>
+                                                <select name="selectItems" id="selectItems" class="form-select"
+                                                    onchange="selectDynamicElementValidator(this,'submenuHasItem','ingredients_id');checkItemExt();">
+                                                </select>
+                                            </div>
+
+                                            <!-- Quantity -->
+                                            <div class="col-4">
+                                                <label for="textQuantity" class="form-label fw-bold">Quantity :
+                                                    <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="textQuantity"
+                                                    placeholder="Enter Quantity"
+                                                    onkeyup="commonTextValidator(this, '^([0-9]+(\.[0-9]{1,4})?)$', 'submenuHasItem', 'qty')">
+                                            </div>
+                                        </div><br>
+
+                                        <!-- Inner Form Button -->
+                                        <div class="row mt-1">
+                                            <!-- Clear Button -->
+                                            <div class="col-3 text-start">
+                                                <button type="button" class="custom-btn btn btn-info btn-sm fw-bold"
+                                                    onclick="clearSubMenuInnerForm()">
+                                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                                </button>
+                                            </div>
+
+                                            <!-- Action Buttons -->
+                                            <div class="col-9 text-end">
+                                                <!-- Update Button -->
+                                                <button type="submit" id="buttonInnerUpdate"
+                                                    class="custom-btn btn btn-warning me-2 fw-bold btn-sm"
+                                                    onclick="buttonSubMenuInnerUpdate(this)">
+                                                    <i class="fa-solid fa-edit fa-sm"></i> Update
+                                                </button>
+
+                                                <!-- Add Button -->
+                                                <button type="button" id="buttonInnerSubmit"
+                                                    class="custom-btn btn btn-success fw-bold btn-sm"
+                                                    onclick="buttonSubMenuInnerSubmit(this)">
+                                                    <i class="fa-solid fa-plus fa-sm"></i> Add
+                                                </button>
+                                            </div>
+                                        </div> <br>
+
+                                        <!--  Inner Table -->
+                                        <div class="row mt-1">
+                                            <div class="col-12">
+                                                <!-- Table -->
+                                                <table class="table table-hover table-striped table-container"
+                                                    id="tableSubMenuItem">
+                                                    <thead class="custom-thead fw-bold">
+                                                        <tr>
+                                                            <!-- Table Headers -->
+                                                            <th>#</th>
+                                                            <th>Item Name</th>
+                                                            <th>Quantity</th>
+                                                            <th>Modify</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!-- Table Body: Filled dynamically via JS -->
+                                                    <tbody class="custom-tbody fw-bold" id="tableSubMenuItemBody">
+                                                        <!-- Item rows dynamically inserted here -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br><br>
+                        </div>
+
+                        <!-- Add/Update/Delete/Submit Buttons Start -->
+                        <div class="row mt-2">
+
+                            <div class="col-3 text-start">
+                                <button type="button" class=" custom-btn btn btn-outline-info btn-sm fw-bold"
+                                    onclick="clearSubMenuForm()">
+                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                </button>
+                            </div>
+                            <div class="col-9 text-end">
+
+                                <button type="submit" id="buttonUpdate" onclick="buttonSubMenuUpdate()"
+                                    class=" custom-btn btn btn-outline-warning me-2 fw-bold btn-sm">
+                                    <i class="fa-solid fa-user-check"></i> Update
+                                </button>
+
+
+                                <button type="submit" id="buttonSubmit"
+                                    class=" custom-btn btn btn-outline-success fw-bold btn-sm"
+                                    onclick="buttonSubMenuSubmit(this)">
+                                    Submit <i class="fa-solid fa-paper-plane fa-sm"></i></i></button>
+                            </div>
+                        </div>
+                        <!-- Add/Update/Delete/Submit Buttons End -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Off-Canvas for View Details -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasSubMenuView"
+        data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="offcanvas-header d-flex justify-content-center w-100">
+            <h5 class="offcanvas-title text-center flex-grow-1"><i class="fa-solid fa-paste"></i> View Sub Menu Details
+            </h5>
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-container table-bordered" id="tableSubMenuView">
+                        <tr>
+                            <th>Category</th>
+                            <td id="tdCateory"></td>
+                        </tr>
+                        <tr>
+                            <th>Sub Category</th>
+                            <td id="tdSubCategory"></td>
+                        </tr>
+                        <tr>
+                            <th>Category Size</th>
+                            <td id="tdCategorySize"></td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td id="tdPrice"></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td id="tdStatus"></td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td id="tdName"></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" class="table-responsive">
+                                <table class="table table-hover table-striped table-container"
+                                    id="printTableSubMenuItem">
+                                    <thead class="custom-thead fw-bold">
+                                        <tr>
+                                            <!-- Table Headers -->
+                                            <th>#</th>
+                                            <th>Item Name</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Table Body: Filled dynamically via JS -->
+                                    <tbody class="custom-tbody fw-bold" id="printTableSubMenuItemBody">
+                                        <!-- Item rows dynamically inserted here -->
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer text-end p-3">
+                    <button class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                        <i class="fa-solid fa-print fa-sm"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================= Offcanvas Sub-Category Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 35%" tabindex="-1" id="offcanvasSubMenuSubCategoryForm"
+        role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100">
+                        <i class="fa-solid fa-paste"> </i> Sub-Category Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Ingredient Form -->
+                            <form id="formSubMenuSubCategory" onsubmit="return false">
+                                <!-- ======================= Required Note Row =================== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">
+                                            Required <span class="text-danger">*</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Item Category ======================= -->
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <label for="selectNewSubMenuCategory" class="form-label fw-bold">
+                                            Sub Menu Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <select required name="selectNewCategory" id="selectNewCategory"
+                                            class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'submenusubcategory','submenu_category_id')">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Item SubCategory ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Item Name Label -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold" for="textSubMenuSubCategory">Sub Category :
+                                            <span class="text-danger">*</span></label>
+
+                                        <input type="text" class="form-control" id="textSubMenuSubCategory"
+                                            placeholder="Enter Sub-Category"
+                                            onkeyup="commonTextValidator(this,'^([A-Za-z\\/]{1,30})$','submenusubcategory','name')"
+                                            required />
+                                    </div>
+                                </div> <br>
+
+                                <!-- ======================= Buttons ======================= -->
+                                <div class="row mt-4">
+                                    <div class="col-3 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                            onclick="clearSubMenuSubCategoryForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <!-- Submit/Update Buttons -->
+                                    <div class="col-9 text-end">
+                                        <button type="submit" class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonSubMenuSubCategorySubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======================End Offcanvas Sub-Category Form ======================= -->
+
+
+    <script src="/uicontroller/submenu.js"></script>
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+
+
+</body>
+
+</html>

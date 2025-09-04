@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ======================= Page Header Row ======================= -->
+        <!-- Row Start: Page Header -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-burger"></i> Customer Order Management</h2>
+            </div>
+        </div><br>
+        <!-- Row End: Page Header -->
+    
+        <!-- ======================= Add Button Section ======================= -->
+
+        <!-- Card for Add New Menu button -->
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button to open offcanvas menu form -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasMenuForm">
+                        <i class="fa-solid fa-plus"></i> ADD A NEW ORDER
+                    </button>
+                    <!-- Help text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new order</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <!-- Status Icons and Labels -->
+                    <i class="fa-solid fa-circle-dot fa-lg text-primary"></i> <span class="ms-2">New</span>
+                    &nbsp;&nbsp;
+                    <i class="fa-solid fa-spinner fa-lg text-warning"></i> <span class="ms-2">In Progress</span>
+                    &nbsp;&nbsp;
+                    <i class="fa-solid fa-bell fa-lg text-info"></i> <span class="ms-2">Ready</span>
+                    &nbsp;&nbsp;
+                    <i class="fa-solid fa-check-circle fa-lg text-success"></i> <span class="ms-2">Complete</span>
+                    &nbsp;&nbsp;
+                    <i class="fa-solid fa-times-circle fa-lg text-danger"></i> <span class="ms-2">Cancelled</span>
+                </div>
+            </div>
+        </div>
+
+    
+        <!-- ======================= Table Display Section ======================= -->
+        <!-- Row Start: Data Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-container" id="tableOrder">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <!-- Table Headers -->
+                                    <th>#</th>
+                                    <th>Order Code</th>
+                                    <th>Date</th>
+                                    <th>Order Type</th>
+                                    <th>Customer Name</th>
+                                    <th>Mobile No</th>
+                                    <th>Total Amount (Rs.)</th>
+                                    <th>Net Amount (Rs.)</th>
+                                    <th>Status</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <!-- Table Body: Filled dynamically via JS -->
+                            <tbody class="custom-tbody fw-bold" id="tableOrderBody">
+                                <!-- Item rows dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row End: Data Table -->
+    
+    </div>
+
+
+    <!-- ======================= Offcanvas Menu Form ======================= -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenuForm" style="width: 100%;">
+        <div class="offcanvas-body">
+            <!-- ========== Begin Original Content ========== -->
+    
+            <!-- Sub Menu Cards Container -->
+            <div class="container">
+                <div class="row mt-2 p-2">
+                    <div class="col-12 fw-bold header p-2">
+                        <a href="#subMenuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                            <h2 class="mb-0">
+                                <i class="fa-brands fa-elementor"></i> Select Sub Menu
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse show" id="subMenuCollapse">
+                    <div class="row mt-2 p-2" id="subMenuCardContainer">
+                        <!-- JS dynamically adds sub menu cards -->
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Liquor Menu Cards Container -->
+            <div class="container">
+                <div class="row mt-2 p-2">
+                    <div class="col-12 fw-bold header p-2">
+                        <a href="#liquorMenuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                            <h2 class="mb-0">
+                                <i class="fa-solid fa-champagne-glasses"></i> Select Liquor Menu
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse show" id="liquorMenuCollapse">
+                    <div class="row mt-2 p-2" id="liquorMenuCardContainer">
+                        <!-- JS dynamically adds liquor menu cards -->
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Main Menu Cards Container -->
+            <div class="container">
+                <div class="row mt-2 p-2">
+                    <div class="col-12 fw-bold header p-2">
+                        <a href="#menuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                            <h2 class="mb-0">
+                                <i class="fa-solid fa-file-contract"></i> Select Menu
+                            </h2>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse show" id="menuCollapse">
+                    <div class="row mt-2 p-2" id="menuCardContainer">
+                        <!-- JS dynamically adds menu cards -->
+                    </div>
+                </div>
+    
+                <!-- View Cart button -->
+                <div class="row">
+                    <div class="col-12 text-end pe-3">
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="offcanvas"
+                            data-bs-target="#cartOffCanvas">
+                            <i class="fa-solid fa-cart-shopping fa-sm"></i> View Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- ========== End Original Content ========== -->
+        </div>
+    </div>
+    
+    <!-- ======================= Cart Offcanvas ======================= -->
+    <div id="cartOffCanvas" class="offcanvas offcanvas-end" tabindex="-1">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-center w-100">
+                <i class="fa-solid fa-cart-shopping"></i> Your Order Cart Details
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+    
+        <div class="offcanvas-body" id="cartItemsContainer">
+            <!-- Cart items will be appended here -->
+        </div>
+    
+        <div class="p-3 border-top">
+            <div class="d-flex justify-content-between fw-bold mb-2">
+                <span>Grand Total:</span>
+                <span id="cartGrandTotal">Rs. 0</span>
+            </div>
+            <button class="btn btn-primary w-100" data-bs-toggle="offcanvas" data-bs-target="#offcanvasOrderForm">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+
+
+<!-- ======================= Offcanvas Main Order Form======================= -->
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasOrderForm" role="dialog">
+
+    <!-- Offcanvas Header -->
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title text-center w-100"><i class="fa-solid fa-receipt"></i> Complete Your Order</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <!-- Offcanvas Body -->
+    <div class="offcanvas-body">
+
+        <!-- Main Order Card -->
+        <div class="card">
+            <div class="card-body">
+                <!-- Purchase Order Form -->
+                <form id="formorder" onsubmit="return false">
+                    <!-- ======================= Required Note Row ======================= -->
+                    <div class="row mt-2">
+                        <div class="col-12 fw-bold mt-2">
+                            <!-- Required Field Note -->
+                            <p class="text-end">Required <span class="text-danger">*</span></p>
+                        </div>
+                    </div>
+
+                    <!-- ======================= Main Form ======================= -->
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <!-- Select Supplier / Order Header Section -->
+                            <div class="row mt-2">
+                                <!-- Date Field -->
+                                <div class="col fw-bold">
+                                    <label for="dteOrderDate" class="form-label">Date : <span
+                                            class="text-danger">*</span></label>
+                                    <input onkeydown="return false"
+                                        onchange="dateElementValidator(this,'order','date')" type="date"
+                                        id="dteOrderDate" required class="form-control" name="dteOrderDate">
+                                </div>
+
+                                    <div class="col fw-bold">
+                                        <label for="selectOrderType" class="form-label fw-bold"> Order Type : <span class="text-danger">*</span></label>
+                                        <select name="selectOrderType" required id="selectOrderType" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'order','order_type_id');calculateNetAmount(); filterAvailableTables();">
+                                        </select>
+                                    </div>
+                            </div>
+
+                            <!-- Customer Name and Mobile -->
+                            <div class="row mt-2">
+
+                                <!-- Customer Mobile Number -->
+                                <div class="col" id="mobileColumn">
+                                    <label for="textMobile" class="form-label fw-bold">Mobile Number : <span class="text-danger">*</span></label>
+                                    <input type="text"  placeholder="Enter Mobile Number" id="textMobile" class="form-control"
+                                        onkeyup="commonTextValidator(this,'^[0][7][01245678][0-9]{7}$','order','contactno');customerByContactNo();">
+                                </div>
+
+                                <!-- Customer Name -->
+                                <div class="col fw-bold" id="customerColumn">
+                                    <label for="textCustomerName" class="form-label fw-bold">Customer Name : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textCustomerName"
+                                        placeholder="Enter Customer Name"
+                                        onkeyup="commonTextValidator(this,'^([A-Z][a-z]{1,20}[\\s])+([A-Z][a-z]{2,20})$','order','name')">
+                                </div>
+
+
+                            </div>
+
+                            <!-- Table No and Waiter Selection -->
+                            <div class="row mt-2">
+                                <div class="col fw-bold" id="colTableNo">
+                                    <label for="selectTable" class="form-label fw-bold"> Table No : <span
+                                            class="text-danger">*</span></label>
+                                    <select name="selectTable"  id="selectTable" class="form-select"
+                                        onchange="selectDynamicElementValidator(this,'order','dinein_table_id');waitorListBytableUnAssigned()">
+                                    </select>
+                                </div>
+
+                                <div class="col fw-bold" id="colEmployee">
+                                    <label for="selectWaitor" class="form-label fw-bold"> Waitor : <span
+                                            class="text-danger">*</span></label>
+                                    <select name="selectWaitor"  id="selectWaitor" class="form-select"
+                                        onchange="selectDynamicElementValidator(this,'order','employee_id')">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Address and City -->
+                            <div class="row mt-2">
+                                <div class="col" id="colAddress">
+                                    <label for="textAddress" class="form-label col-4 fw-bold"> Address: <span
+                                            class="text-danger">*</span></label>
+                                    <textarea type="text" class="form-control" id="textAddress"
+                                        placeholder="Enter Delivery Address" 
+                                        onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','order','delivery_address')"></textarea>
+                                </div>
+
+                                <div class="col fw-bold" id="ColCity">
+                                    <label for="textCityName" class="form-label fw-bold">City : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textCityName"
+                                        placeholder="Please Enter City"
+                                        onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','order','city')">
+                                </div>
+                            </div>
+
+                            <!-- Total and Discount Amount -->
+                            <div class="row mt-2">
+                              
+                                <div class="col-6 fw-bold" id="colServiceCharge">
+                                    <label for="textServiceCharge" class="form-label fw-bold">Service Charge : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textServiceCharge" placeholder="Enter Service Charge"
+                                        onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','order','service_charge');">
+                                </div>
+
+                                <div class="col-6 fw-bold" id="colDeliveryCharge">
+                                    <label for="textDeliveryCharge" class="form-label fw-bold">Delivery Charge : <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textDeliveryCharge" placeholder="Enter Delivery Charge"
+                                        onkeyup="commonTextValidator(this,'^(([0-9][0-9]{0,3})|([0-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','order','delivery_charge');">
+                                </div>
+
+                            </div>
+
+                            <!-- Service and Delivery Charge -->
+                            <div class="row mt-2">
+                                <div class="col-6 fw-bold">
+                                    <label for="textTotalAmount" class="form-label fw-bold">Total Amount (Rs.): <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textTotalAmount" placeholder="Enter Total Amount"
+                                        onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','order','total_amount');"
+                                        required>
+                                </div>
+                            
+                                <div class="col-6 fw-bold">
+                                    <label for="textNetAmount" class="form-label fw-bold">Net Amount : <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="textNetAmount" placeholder="Enter Net Amount"
+                                        onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','order','net_charge');"
+                                        required>
+                                </div>
+                            </div>
+
+                            <!-- Net Amount and Note -->
+                            <div class="row mt-2">
+                               
+                                <div class="col fw-bold">
+                                    <label for="selectOrderStatus" class="form-label fw-bold">Order Status : <span class="text-danger">*</span></label>
+                                    <select name="selectOrderStatus" required id="selectOrderStatus" class="form-select"
+                                        onchange="selectDynamicElementValidator(this,'order','order_status_id')">
+                                    </select>
+                                </div>
+
+                                <div class="col fw-bold">
+                                    <label for="textNote" class="form-label fw-bold">Note :</label>
+                                    <textarea class="form-control" id="textNote" placeholder="Enter Note"
+                                        onkeyup="commonTextValidator(this,'^([A-Za-z0-9\/]{1,20}[.]?[\s]?)+$','order','note')"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br><br>
+                    </div>
+
+                    <!-- ======================= Buttons Row ======================= -->
+                    <div class="row mt-4">
+                        <div class="col-3 text-start">
+                            <!-- Clear Button -->
+                            <button type="button" id="btnOrderClear" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                onclick="clearOrderForm()">
+                                <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                            </button>
+                        </div>
+                        <div class="col-9 text-end">
+                            <!-- Update Button -->
+                            <button type="submit" id="btnOrderUpdate"
+                                class="custom-btn btn btn-outline-warning me-2 fw-bold btn-sm"
+                                onclick="buttonOrderUpdate(this)">
+                                <i class="fa-solid fa-file-import"></i> Update Order
+                            </button>
+
+                            <!-- Submit Button -->
+                            <button type="submit" id="btnOrderSubmit"
+                                class="custom-btn btn btn-outline-success me-2 fw-bold btn-sm"
+                                onclick="buttonMenuOrderSubmit(this)">
+                                <i class="fa-solid fa-paper-plane fa-sm"></i> Add Order
+                            </button>
+
+                            <!-- Payment Button -->
+                            <button type="button" id="btnMakePayment" onclick="refreshTakeAwayPayment()"
+                                class="custom-btn btn btn-outline-primary fw-bold btn-sm" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasCustomerPaymentForm">
+                                <i class="fa-solid fa-credit-card fa-sm"></i> Payment
+                            </button>
+                        </div>
+                    </div>
+                    <br><br>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- End Offcanvas Main Order Form-->
+
+<!-- Offcanvas for View Order Details -->
+<div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasOrderView"  data-bs-backdrop="static"
+    data-bs-keyboard="false" style="padding: 20px;">
+    <div class="offcanvas-header d-flex justify-content-center w-100">
+        <h5 class="offcanvas-title text-center flex-grow-1">
+            <i class="fa-solid fa-receipt"></i> View Order Details
+        </h5>
+        <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <p><strong>Order Code:</strong> <span id="tdOrderCode"></span></p>
+            <p><strong>Date:</strong> <span id="tdDate"></span></p>
+            <p><strong>Customer:</strong> <span id="tdCustomer"></span></p>
+            <p><strong>Contact No:</strong> <span id="tdContactNo"></span></p>
+            <p><strong>Order Type:</strong> <span id="tdOrderType"></span></p>
+            <p><strong>Order Status:</strong> <span id="tdStatus"></span></p>
+        </div>
+
+        <!-- Items List Area -->
+        <div class="mt-3">
+            <div id="orderItemsList"></div>
+        </div>
+
+        <!-- Charges Summary Area -->
+        <div class="mt-3">
+            <h6 class="fw-bold">Summary</h6>
+            <div id="orderChargesSummary"></div>
+        </div>
+
+        <div class="text-end mt-4">
+            <button class="btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                <i class="fa-solid fa-print fa-sm"></i> Print Bill
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <!-- ======================= Offcanvas Customer Payment Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasCustomerPaymentForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+    
+                <!-- ========== Offcanvas Header ========== -->
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100" id="offcanvasExampleLabel">
+                        <i class="fa-solid fa-file-invoice-dollar"></i> Complete Customer Payment
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <!-- ========== Offcanvas Body ========== -->
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+    
+                            <!-- ========== Customer Payment Form ========== -->
+                            <form id="formCustomerPayment" onsubmit="return false">
+    
+                                <!-- ========== Required Note ========== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">Required <span class="text-danger">*</span></p>
+                                    </div>
+                                </div>
+    
+                                <!-- ========== Payment Method & Total Amount ========== -->
+                                <div class="row mt-2">
+    
+                                    <!-- Payment Method Dropdown -->
+                                    <div class="col">
+                                        <label for="selectPaymentMethod" class="form-label fw-bold">
+                                            Payment Method : <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="selectPaymentMethod" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'customerpayment','payment_method_id'); calculatePayAmountAndBalanceBypayMethod()">
+                                        </select>
+                                    </div>
+    
+                                    <!-- Total Amount Field -->
+                                    <div class="col fw-bold">
+                                        <label for="textPTotalAmount" class="form-label fw-bold">
+                                            Total Amount : <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="textPTotalAmount"
+                                            placeholder="Enter Total Amount"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','customerpayment','total_amount')"
+                                            required>
+                                    </div>
+    
+                                </div>
+    
+                                <!-- ========== Paid & Balance Amount ========== -->
+                                <div class="row mt-2">
+    
+                                    <!-- Paid Amount Input -->
+                                    <div class="col">
+                                        <label for="textPaidAmount" class="form-label fw-bold">
+                                            Payment Amount : <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" id="textPaidAmount" class="form-control"
+                                            placeholder="Enter Payment Amount"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','customerpayment','paid_amount');calculateBalanceAmount();"
+                                            required>
+                                    </div>
+    
+                                    <!-- Balance Amount Input -->
+                                    <div class="col-6">
+                                        <label for="textBalanceAmount" class="form-label fw-bold">
+                                            Balance Amount :
+                                        </label>
+                                        <input type="text" id="textBalanceAmount" class="form-control"
+                                            placeholder="Enter Balance Amount"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,6})|([1-9][0-9]{0,6}[.]{0,1}[0-9]{2}))$','customerpayment','balance_amount');calculateBalanceAmount();">
+                                    </div>
+    
+                                </div>
+    
+                                <!-- ========== Payment Status Dropdown ========== -->
+                                <div class="row mt-2 d-none">
+                                    <div class="col-6">
+                                        <label for="selectPaymentStatus" class="form-label fw-bold">
+                                            Payment Status : <span class="text-danger">*</span>
+                                        </label>
+                                        <select id="selectPaymentStatus" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'customerpayment','payment_status_id');">
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <!-- ========== Action Buttons ========== -->
+                                <div class="row mt-4">
+                                    <!-- Submit and Update Buttons -->
+                                    <div class="col-12 text-end">
+                                        <button type="submit" id="buttonPaymentSubmit"
+                                            class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonCustomerPaymentSubmit()">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+    
+                                </div>
+    
+                            </form> <!-- End Form -->
+    
+                        </div> <!-- End Card Body -->
+                    </div> <!-- End Card -->
+                </div> <!-- End Offcanvas Body -->
+    
+            </div> <!-- End Offcanvas Dialog -->
+        </div> <!-- End Offcanvas Content -->
+    </div>
+    <!-- ======================= End Offcanvas Customer Payment Form ======================= -->
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/order.js"></script>
+
+</body>
+
+</html>

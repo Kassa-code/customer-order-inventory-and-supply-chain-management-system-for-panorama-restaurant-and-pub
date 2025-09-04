@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="chart/chart.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- ==================== Navigation Bar ==================== -->
+    <!-- Include the top navigation bar using Thymeleaf fragment -->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- ==================== End Navigation ==================== -->
+
+    <!-- ==================== Page Container ==================== -->
+    <div class="container-fluid">
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-12 fw-bold header p-2">
+                <h2> <i class="fa-solid fa-chart-pie"></i> Customer Payment Report</h2>
+            </div>
+        </div>
+        <br>
+
+        <!-- ==================== Card Container ==================== -->
+        <div class="card">
+            <div class="card-body">
+
+                <!-- ========== Filter Section ========== -->
+                <div class="row mb-4">
+                    <!-- Start Date Filter -->
+                    <div class="col-4">
+                        <label for="dteStartDate" class="form-label fw-bold">Start Date:</label>
+                        <input type="date" class="form-control" id="dteStartDate">
+                    </div>
+
+                    <!-- End Date Filter -->
+                    <div class="col-4">
+                        <label for="dteEndDate" class="form-label fw-bold">End Date:</label>
+                        <input type="date" class="form-control" id="dteEndDate">
+                    </div>
+
+                    <!-- Type Filter (Weekly/Monthly) -->
+                    <div class="col-4">
+                        <label for="selectType" class="form-label fw-bold">Select Type:</label>
+                        <select id="selectType" class="form-select">
+                            <option value="" disabled selected>Select Type</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ========== End Filter Section ========== -->
+
+                <!-- ========== Table and Chart Section ========== -->
+                <div class="row mb-4">
+                    <!-- Table for displaying report data -->
+                    <div class="col">
+                        <table class="table table-hover table-script table-container table-bordered"
+                            id="tableCustomerPaymentReport">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Day | Week | Month</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableBodyCustomerPaymentReport">
+                                <!-- Data dynamically inserted via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Canvas chart to display bar graph using Chart.js -->
+                    <div class="col">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <!-- ========== End Table and Chart Section ========== -->
+
+                <!-- ========== Action Buttons ========== -->
+                <div class="row">
+                    <div class="col-12 text-end">
+                        <!-- Generate Report Button -->
+                        <button class="custom-btn btn btn-outline-warning me-2 fw-bold btn-sm" type="button"
+                            onclick="generateReport()">
+                            <i class="fa-solid fa-file-invoice fa-sm"></i> Generate
+                        </button>
+
+                        <!-- Print Chart Button -->
+                        <button class="custom-btn btn btn-outline-success fw-bold btn-sm" type="button"
+                            onclick="printChart()">
+                            <i class="fa-solid fa-print fa-sm"></i> Print
+                        </button>
+                    </div>
+                </div>
+                <!-- ========== End Action Buttons ========== -->
+
+            </div>
+        </div>
+        <!-- ==================== End Card Container ==================== -->
+
+    </div>
+    <!-- ==================== End Page Container ==================== -->
+
+    <!-- ==================== JavaScript Inclusions ==================== -->
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/uicontroller/customerpaymentreport.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <!-- ==================== End Scripts ==================== -->
+
+</body>
+
+
+</html>

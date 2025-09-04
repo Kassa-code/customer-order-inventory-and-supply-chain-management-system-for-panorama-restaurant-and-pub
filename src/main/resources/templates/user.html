@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- Page Header Start -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-user-lock"></i> User Management</h2>
+            </div>
+        </div><br>
+        <!-- Page Header End -->
+
+        <!-- Card Section for Add User Button -->
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button trigger offcanvas -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUserForm">
+                        <i class="fa-solid fa-user-plus"></i> ADD A NEW USER
+                    </button>
+                    <!-- Helping text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new user</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Display Section Start -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- User Table -->
+                        <table class="table table-hover table-striped table-container" id="tableUser">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Employee</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableBodyUser">
+                                <!-- Dynamic data will be injected here using JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- User Status Icons Explanation (Inside the Card Footer) -->
+                    <div class="card-footer text-center">
+                        <!-- &nbsp; adds space, | is a separator, and another &nbsp; ensures spacing on both sides -->
+                        <i class="fa-solid fa-user-tie fa-lg text-success"></i>
+                        <span class="ms-2">Active</span> &nbsp;
+                        <i class="fa-solid fa-user-tie fa-lg text-danger"></i>
+                        <span class="ms-2">Not-Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Table Display Section End -->
+
+        <!-- Offcanvas User Form Start -->
+        <div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="offcanvasUserForm" role="dialog">
+            <div class="offcanvas-content">
+                <div class="offcanvas-dialog">
+                    <!-- Offcanvas Header -->
+                    <div class="offcanvas-header" aria-labelledby="offcanvasExampleLabel">
+                        <h5 class="offcanvas-title text-center w-100" id="offcanvasExampleLabel">
+                            <i class="fa-solid fa-user-tie"></i> User Details
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Offcanvas Body -->
+                    <div class="offcanvas-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="formUser" onsubmit="return false">
+                                    <!-- Required mark info row -->
+                                    <div class="row mt-2">
+                                        <div class="col-12 fw-bold mt-2">
+                                            <p class="text-end">
+                                                Required <span class="text-danger">*</span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Select Employee Dropdown -->
+                                    <div class="row mt-2">
+                                        <div class="col-4">
+                                            <label for="selectEmployee" class="form-label fw-bold">Employee <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <select name="selectEmployee" required id="selectEmployee" class="form-select" onchange="selectDynamicElementValidator(this,'user','employee_id')">
+                                                <option selected disabled>Select Employee</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- User Name Input -->
+                                    <div class="row mt-2">
+                                        <div class="col-4">
+                                            <label for="textUserName" class="form-label fw-bold">User Name <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control" required id="textUserName" placeholder="Enter User Name" onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}$','user','username')" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Password Input -->
+                                    <div class="row mt-2">
+                                        <div class="col-4 fw-bold">
+                                            <label for="textPassword" class="form-label">Password <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="password" class="form-control" required id="textPassword" placeholder="Enter Password" onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}$','user','password')" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Re-type Password Input -->
+                                    <div class="row mt-2">
+                                        <div class="col-4 fw-bold">
+                                            <label for="textReTypePassword" class="form-label">Verify Password
+                                                <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="password" class="form-control" required id="textReTypePassword" placeholder="Re-type Password" onkeyup="passwordValidator()" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Email Input -->
+                                    <div class="row mt-2">
+                                        <div class="col-4 fw-bold">
+                                            <label for="textEmail" class="form-label">Email <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input type="email" class="form-control" required id="textEmail" placeholder="Enter Email" onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}[@][a-z]{4,8}[.][a-z]{2,3}$','user','email')" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Role Selection -->
+                                    <div class="row mt-2">
+                                        <div class="col-4 fw-bold">
+                                            <label for="chkBoxRole" class="form-label">Role <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8 fw-bold" id="chkBoxRole">
+                                            <!-- Roles will be dynamically populated -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Note Textarea -->
+                                    <div class="row mt-2">
+                                        <div class="col-4 fw-bold">
+                                            <label for="textNote" class="form-label"> Note </label>
+                                        </div>
+                                        <div class="col-8 fw-bold">
+                                            <textarea type="text" class="form-control" id="textNote" placeholder="Enter Note" onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','user','note')"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <!-- User Status Checkbox -->
+                                    <div class="row mt-2">
+                                        <div class="col-4">
+                                            <label for="checkboxUserStatus" class="form-label fw-bold">User Status <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" id="checkboxUserStatus" class="form-check-input" checked="checked" onchange="
+                                                if (this.checked) {
+                                                    labelUserStatus.innerText = ' User Account is Active ' ; 
+                                                    user.status=true; 
+                                                    } else { 
+                                                        labelUserStatus.innerText = ' User Account is  In-In-Active' ; 
+                                                        user.status=false;   
+                                                    } " />
+
+                                                <label for="checkboxUserStatus" id="labelUserStatus" class="form-check-label fw-bold">
+                                                    User Account is Active
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons (Clear / Update / Submit) -->
+                                    <div class="row mt-2 ">
+                                        <div class="col-3 text-start ">
+                                            <button type="button " class="custom-btn btn btn-outline-info btn-sm fw-bold " onclick="clearUserForm()">
+                                                <i class="fa-solid fa-recycle fa-sm "></i> Clear
+                                            </button>
+                                        </div>
+                                        <div class="col-9 text-end ">
+                                            <button type="submit " class="custom-btn btn btn-outline-warning me-2 fw-bold btn-sm " id="buttonUpdate" onclick="buttonUserUpdate(this) ">
+                                                <i class="fa-solid fa-user-pen fa-sm "></i> Update
+                                            </button>
+                                            <button type="submit " class="custom-btn btn btn-outline-success fw-bold btn-sm " id="buttonSubmit" onclick="buttonUserSubmit(this) ">
+                                                <i class="fa-solid fa-paper-plane fa-sm "></i> Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Add/Update/Delete buttons End -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Offcanvas User Form End -->
+    </div>
+
+
+    <!-- Off-Canvas for View Uer Details -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasUerView" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="offcanvas-header d-flex justify-content-center w-100">
+            <h5 class="offcanvas-title text-center flex-grow-1"><i class="fa-solid fa-user-tie"></i> View User Details
+            </h5>
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-container table-bordered" id="tableUserView">
+                        <tr>
+                            <th>Employee Name</th>
+                            <td id="tdEmployeeName"></td>
+                        </tr>
+                        <tr>
+                            <th>User Name</th>
+                            <td id="tdUserName"></td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td id="tdUserEmail"></td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td id="tdUserRole"></td>
+                        </tr>
+                        <tr>
+                            <th>Note</th>
+                            <td id="tdUserNote"></td>
+                        </tr>
+                        <tr>
+                            <th>User Status</th>
+                            <td id="tdUserStatus"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="card-footer text-end p-3">
+                    <button class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                <i class="fa-solid fa-print fa-sm"></i> Print
+            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Script References -->
+    <script src="/js/commonTableFunction.js "></script>
+    <!-- Custom reusable table functions -->
+    <script src="/js/validationFunction.js "></script>
+    <!-- Form validation functions -->
+    <script src="/js/commonFunction.js "></script>
+    <!-- General utility functions -->
+    <script src="/uicontroller/user.js "></script>
+    <!-- JavaScript logic for user management UI -->
+</body>
+
+</html>

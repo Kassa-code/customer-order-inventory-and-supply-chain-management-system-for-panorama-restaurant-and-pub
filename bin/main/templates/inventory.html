@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ======================= Page Header Row ======================= -->
+        <!-- Row Start: Page Header -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-cart-flatbed"></i></i> Inventory Management</h2>
+            </div>
+        </div><br>
+        <!-- Row End: Page Header -->
+
+        <!-- ======================= Table Display Section ======================= -->
+        <!-- Row Start: Data Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-container" id="tableInventory">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <!-- Table Headers -->
+                                    <th>#</th>
+                                    <th>Batch No</th>
+                                    <th>Item Name</th>
+                                    <th>MFD</th>
+                                    <th>EXP</th>
+                                    <th>Total Qty</th>
+                                    <th>Used Qty</th>
+                                    <th>Removed Qty</th>
+                                    <th>Available Qty</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <!-- Table Body: Filled dynamically via JS -->
+                            <tbody class="custom-tbody fw-bold" id="tableInventoryBody">
+                                <!-- Item rows dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Ingredient Status Icons Explanation (Inside the Card Footer) -->
+                    <div class="card-footer text-center">
+                        <!-- &nbsp; adds space, | is a separator, and another &nbsp; ensures spacing on both sides -->
+                        <i class="fa-solid fa-file-circle-check fa-lg text-success"></i> <span class="ms-2"> In Stock</span>
+                        &nbsp;
+                        <i class="fa-solid fa-file-circle-exclamation fa-lg text-warning"></i> <span class="ms-2"> Low Stock</span>
+                        &nbsp;
+                        <i class="fa-solid fa-file-circle-minus fa-lg text-danger"></i> <span class="ms-2">Out of Stock</span>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row End: Data Table -->
+
+    </div>
+
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/inventory.js"></script>
+
+</body>
+
+</html>

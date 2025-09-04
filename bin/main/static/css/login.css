@@ -1,0 +1,62 @@
+body {
+    background-color: #e9ecef;
+
+ }
+/* Styling for the FontAwesome icon */
+.icon-style {
+    color: #709085; /* Sets the icon color */
+}
+
+/* Form width customization */
+.form-width {
+    width: 23rem; /* Sets the width of the form */
+}
+
+/* Title styling */
+.title-spacing {
+    letter-spacing: 1px; /* Adjusts letter spacing for better readability */
+}
+
+/* Login page background image styling */
+.login-image {
+    width: 100%; /* Makes the image cover the full width */
+    height: 100vh; /* Sets the height to match the viewport */
+    object-fit: cover; /* Ensures the image covers the entire space without stretching */
+    object-position: left; /* Positions the image to align from the left */
+}
+/* Styling for the FontAwesome icon */
+.icon-style {
+    color: #709085; /* Sets the icon color */
+}
+
+/* Form width customization */
+.form-width {
+    width: 23rem; /* Sets the width of the form */
+}
+
+/* Title styling */
+.title-spacing {
+    letter-spacing: 1px; /* Adjusts letter spacing for better readability */
+}
+
+/* Login page background image styling */
+.login-image {
+    width: 100%; /* Makes the image cover the full width */
+    height: 100vh; /* Sets the height to match the viewport */
+    object-fit: cover; /* Ensures the image covers the entire space without stretching */
+    object-position: left; /* Positions the image to align from the left */
+}
+
+/* Styling for the Login button */
+.btn-login {
+    background-color: #17a2b8; /* Bootstrap info color */
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for the Login button */
+.btn-login:hover {
+    background-color: #138496; /* Darker shade of info color */
+    transform: scale(1.05); /* Slightly enlarges button */
+}

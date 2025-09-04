@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+   
+
+    <!-- Link Css File -->
+    <link rel="stylesheet" href="/css/card.css">
+    
+    <!-- Link Css File -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+   
+</head>
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start-->
+    <nav th:replace="topnavbar :: topNavBarFragment"></nav>
+    <!-- Bootstrap Navigation Bar End-->
+
+    <!-- Title Start -->
+    <div class="row mt-2 p-2">
+        <div class="col-12 fw-bold header p-2">
+            <h2><i class="fa-solid fa-newspaper"></i> Restaurant Menu Management</h2>
+        </div>
+    </div> <br>
+    <!-- Title End -->
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-3">
+                        <div class="card small-card">
+                            <div class="card-header fw-bold custom-header">
+                                Menu Management
+                            </div>
+                            <div class="card-body d-flex flex-column p-2">
+                                <img src="/images/menu.png" alt="Menues" class="img-fluid fixed-img">
+                                <a href="/menu" class="btn btn-primary btn-sm mt-auto fw-bold">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card small-card">
+                            <div class="card-header fw-bold custom-header">
+                                Sub Menu Management
+                            </div>
+                            <div class="card-body d-flex flex-column p-2">
+                                <img src="/images/submenu.png" alt="Pos" class="img-fluid fixed-img">
+                                <a href="/submenu" class="btn btn-primary btn-sm mt-auto fw-bold">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card small-card ">
+                            <div class="card-header fw-bold custom-header">
+                                Liquor Menu
+                            </div>
+                            <div class="card-body d-flex flex-column p-2">
+                                <img src="/images/barmenu.png" alt="Grns" class="img-fluid fixed-img">
+                                <a href="/liquormenu" class="btn btn-primary btn-sm mt-auto fw-bold">Continue</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

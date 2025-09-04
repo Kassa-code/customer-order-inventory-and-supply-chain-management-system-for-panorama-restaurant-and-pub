@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+
+    <!-- Bootstrap Navigation Bar Start -->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End -->
+
+<!-- Offcanvas Start -->
+<!-- Offcanvas (slide-in panel) to edit user details -->
+<div class="offcanvas offcanvas-end show" tabindex="-1" id="offcanvasEditUser" role="dialog"
+    aria-labelledby="offcanvasEditUserLabel" style="width: 50%;">
+
+    <!-- Wrapper for offcanvas content -->
+    <div class="offcanvas-content">
+        <div class="offcanvas-dialog">
+
+            <!-- Offcanvas Header -->
+            <div class="offcanvas-header" aria-labelledby="offcanvasEditUserLabel"
+                style="justify-content: center; position: relative;">
+
+                <!-- Title for Offcanvas -->
+                <h5 class="offcanvas-title text-center w-100" id="offcanvasEditUserLabel">
+                    <i class="fa-solid fa-user-lock"></i> Edit User Details
+                </h5>
+
+                <!-- Close Button (aligned to right corner) -->
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+                    style="position: absolute; right: 1rem;"></button>
+            </div>
+
+            <!-- Offcanvas Body Starts -->
+            <div class="offcanvas-body p-0">
+                <div class="container-fluid mt-3">
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body p-3">
+
+                                    <!-- Table layout for user details editing -->
+                                    <table class="table mb-0" style="border-collapse: collapse;">
+                                        <!-- User Photo Row -->
+                                        <tr>
+                                            <th>User Photo</th>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <!-- User Photo Preview -->
+                                                    <img id="imgEditPhotoPreview" src="/images/profile.png"
+                                                        alt="Preview" class="w-25 h-100 rounded-circle me-3">
+                                                    <div>
+                                                        <!-- Hidden Select Button for Photo Upload -->
+                                                        <button id="btnAddUserImage" onclick="fileEditUserPhoto.click()"
+                                                            type="button"
+                                                            class="custom-btn btn btn-outline-primary btn-sm mb-1 d-none">
+                                                            <i class="fa fa-upload fa-sm"></i> Select
+                                                        </button><br>
+                                                        <!-- Hidden Clear Button to Remove Photo -->
+                                                        <button id="btnClearUserImg" type="button"
+                                                            class="custom-btn btn btn-outline-danger btn-sm d-none"
+                                                            onclick="clearUserPhoto()">
+                                                            <i class="fa fa-trash-alt fa-sm"></i> Clear
+                                                        </button>
+                                                        <!-- Hidden File Input Field for Photo Upload -->
+                                                        <input type="file" class="form-control d-none"
+                                                            id="fileEditUserPhoto"
+                                                            onchange="fileValidator(this,'lgUser','userphoto',imgEditPhotoPreview)">
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <!-- Edit Button to Show Select & Clear Buttons -->
+                                                <button class="custom-btn btn btn-outline-warning btn-sm"
+                                                    onclick="btnAddUserImage.classList.remove('d-none');btnClearUserImg.classList.remove('d-none');">
+                                                    <i class="fa-solid fa-edit fa-sm"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- User Name Row -->
+                                        <tr>
+                                            <th>User Name</th>
+                                            <td>
+                                                <!-- Disabled Text Field for User Name -->
+                                                <input type="text" class="form-control" id="textEditUserName"
+                                                    placeholder="Enter User Name" readonly disabled
+                                                    onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}$','lgUser','username')" />
+                                            </td>
+                                            <td>
+                                                <!-- Edit Button to Enable the Username Field -->
+                                                <button class="custom-btn btn btn-outline-warning btn-sm"
+                                                    onclick="textEditUserName.removeAttribute('readonly'); textEditUserName.removeAttribute('disabled');">
+                                                    <i class="fa-solid fa-edit fa-sm"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- User Password Row -->
+                                        <tr>
+                                            <th>User Password</th>
+                                            <td>
+                                                <!-- Old Password Input (Disabled by Default) -->
+                                                <input type="password" readonly disabled class="form-control mb-1"
+                                                    id="textEditOldPassword" placeholder="Enter Old Password"
+                                                    onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}$','lgUser','oldpassword')" />
+
+                                                <!-- New Password Input (Hidden by Default) -->
+                                                <input type="password" class="form-control d-none mb-1"
+                                                    id="textEditNewPassword" placeholder="Enter New Password"
+                                                    onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,20}$','lgUser','newpassword')" />
+
+                                                <!-- Re-type Password Input (Hidden by Default) -->
+                                                <input type="password" class="form-control d-none"
+                                                    id="textEditNewRePassword" placeholder="Re Type Password"
+                                                    onkeyup="passwordValidator()" />
+                                            </td>
+                                            <td>
+                                                <!-- Edit Button to Enable Password Fields -->
+                                                <button class="custom-btn btn btn-outline-warning btn-sm"
+                                                    onclick="textEditOldPassword.removeAttribute('readonly'); textEditOldPassword.removeAttribute('disabled'); textEditNewPassword.classList.remove('d-none'); textEditNewRePassword.classList.remove('d-none');">
+                                                    <i class="fa-solid fa-edit fa-sm"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                        <!-- User Email Row -->
+                                        <tr>
+                                            <th>User Email</th>
+                                            <td>
+                                                <!-- Disabled Text Field for User Email -->
+                                                <input type="text" class="form-control" id="textEditUserEmail" readonly
+                                                    disabled placeholder="Enter Email"
+                                                    onkeyup="commonTextValidator(this,'^[A-Za-z0-9]{5,40}[@][a-z]{4,8}[.][a-z]{2,3}$','lgUser','email')" />
+                                            </td>
+                                            <td>
+                                                <!-- Edit Button to Enable Email Field -->
+                                                <button class="custom-btn btn btn-outline-warning btn-sm"
+                                                    onclick="textEditUserEmail.removeAttribute('readonly'); textEditUserEmail.removeAttribute('disabled');">
+                                                    <i class="fa-solid fa-edit fa-sm"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <br>
+
+                                    <!-- Action Buttons Row -->
+                                    <div class="row mt-3">
+                                        <div class="col-6 text-start">
+                                            <!-- Clear Button to Reset the Form -->
+                                            <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                                onclick="clearUserEditForm()">
+                                                <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                            </button>
+                                        </div>
+                                        <div class="col-6 text-end">
+                                            <!-- Save Changes Button -->
+                                            <button type="button"
+                                                class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                                onclick="saveChanges(this)">
+                                                <i class="fa-solid fa-paper-plane fa-sm"></i> Save Changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- Action Buttons Row End -->
+
+                                </div> <!-- Card Body End -->
+                            </div> <!-- Card End -->
+                        </div> <!-- Column End -->
+                    </div> <!-- Row End -->
+                </div> <!-- Container End -->
+            </div> <!-- Offcanvas Body End -->
+
+        </div> <!-- Offcanvas Dialog End -->
+    </div> <!-- Offcanvas Content End -->
+</div> <!-- Offcanvas End -->
+
+
+
+    <!-- Script References -->
+    <script src="/js/commonTableFunction.js "></script>
+    <!-- Custom reusable table functions -->
+    <script src="/js/validationFunction.js "></script>
+    <!-- Form validation functions -->
+    <script src="/js/commonFunction.js "></script>
+    <!-- General utility functions -->
+    <script src="/uicontroller/changeuserprofile.js "></script>
+    <!-- JavaScript logic for user management UI -->
+</body>
+
+</html>

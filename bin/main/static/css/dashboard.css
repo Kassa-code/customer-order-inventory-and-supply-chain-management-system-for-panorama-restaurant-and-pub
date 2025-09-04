@@ -1,0 +1,112 @@
+body {
+    background-color: #efeeff; /* Light purple background color */
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #d1b3f2; /* Subtle purple border */
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 6px rgba(107, 0, 134, 0.1); /* Light purple shadow */
+}
+
+@keyframes pulse-glow {
+    0%   { box-shadow: 0 2px 6px rgba(107, 0, 134, 0.1); }
+    50%  { box-shadow: 0 8px 16px rgba(107, 0, 134, 0.3); }
+    100% { box-shadow: 0 2px 6px rgba(107, 0, 134, 0.1); }
+}
+
+.dashboard-cards .card {
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #d1b3f2;
+    border-radius: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 2px 6px rgba(107, 0, 134, 0.08);
+    cursor: pointer;
+}
+
+.dashboard-cards .card:hover {
+    transform: translateY(-3px);
+    background-color: #f8f4fc;
+    animation: pulse-glow 1s ease-in-out infinite;
+}
+
+
+.card-title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    color: #6b0086; /* Accent title color */
+    font-weight: 600;
+}
+
+/* Custom background color for navbar */
+.navbar {
+    background-color:  #6b0086!important;
+    color: white !important;
+    padding: 5px 10px !important; /* Reduce padding to make it smaller */
+    height: 50px; /* Adjust the navbar height */
+}
+
+
+/* Add space between navbar items */
+.navbar-nav .nav-item {
+    margin-right: 30px; /* Adjust this value for spacing between links */
+}
+/* Navbar link hover effect */
+.navbar-nav .nav-link {
+    color: white !important;
+    font-weight: bold; /* Keep the text bold */
+    position: relative; /* Needed for underline positioning */
+    transition: color 0.3s ease, text-decoration 0.3s ease, text-decoration-thickness 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect */
+.navbar-nav .nav-link:hover {
+    text-decoration: underline; /* Underline on hover */
+    text-underline-offset: 10px; /* Move the underline a bit lower */
+    text-decoration-thickness: 2px; /* Make the underline bold */
+    text-decoration-color: white; /* Set the underline color to white */
+}
+
+/* Apply the navbar font color to the profile dropdown */
+.navbar .dropdown-menu {
+    background-color: white; /* Ensures contrast */
+    border: none; /* Removes default border */
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    color: #2b0076; /* Same as navbar text */
+    font-weight: bold;
+}
+
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #deabe9 !important;
+    color: black !important;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar-brand {
+    line-height: 1;
+    padding-top: 4px;
+    color: white;
+
+}
+
+.dashboard-heading {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6b0086;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    padding: 15px 30px;
+    border-bottom: 3px solid #d1b3f2;
+    border-radius: 10px;
+    display: inline-block;
+    background: linear-gradient(to right, #e7d6f5, #f8f4fc);
+    box-shadow: 0 3px 10px rgba(107, 0, 134, 0.1);
+}
+

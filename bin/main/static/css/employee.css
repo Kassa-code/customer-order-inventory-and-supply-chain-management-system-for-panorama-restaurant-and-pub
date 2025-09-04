@@ -1,0 +1,256 @@
+/* Sets a light background color for the body */
+
+body {
+    background-color: #efeeff;
+    /* Light purple background color */
+}
+
+
+/* Styles for the header section */
+
+.header {
+    font-family: 'open_sans_condensedbold';
+    /* Sets the font to 'Open Sans Condensed Bold' */
+    font-size: 18px;
+    /* Sets the font size to 18px */
+    color: #2b0076;
+    /* Dark purple color for the text */
+    text-transform: uppercase;
+    /* Converts text to uppercase */
+    text-decoration: none;
+    /* Removes underline from the text */
+    line-height: 1.0;
+    /* Sets line height to 1 */
+    letter-spacing: 0.7px;
+    /* Adds slight spacing between letters */
+    padding: 30px 0px 25px 0px;
+    /* Adds padding to the top and bottom */
+    margin: 0px 27px 0px 0px;
+    /* Adds right margin */
+    background: transparent;
+    /* Makes the background transparent */
+    border: none;
+    /* Removes any border */
+    border-bottom: 3px solid #2b0076;
+    /* Adds a bottom border with dark purple color */
+    text-align: center;
+    /* Centers the text */
+    background-color: #efeeff;
+    /* Sets the background color */
+}
+
+
+/* Container for forms with a larger font size */
+
+.form-container {
+    font-size: 20px;
+    /* Sets font size to 20px */
+}
+
+
+/* Styles for card elements */
+
+.card {
+    background-color: #ffffff;
+    /* White background for cards */
+    padding: 20px;
+    /* Adds padding inside the card */
+}
+
+
+/* Container doesn't need text-align */
+
+.table-container {
+    width: 100%;
+    padding: 20px;
+    border-collapse: collapse;
+}
+
+
+/* Center-align header cells */
+
+.custom-thead th {
+    background-color: #6b0086;
+    color: white;
+    font-size: 15px;
+    line-height: 1;
+    text-align: center !important;
+    /* <-- FORCE center */
+    vertical-align: middle;
+}
+
+
+/* Center-align body cells */
+
+.custom-tbody td {
+    font-size: 15px;
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+
+/* Hover effect for table rows */
+
+.custom-tbody tr:hover {
+    background-color: #deabe9 !important;
+    /* Light purple background on hover */
+    color: white !important;
+    /* Changes text color to white on hover */
+    transition: background-color 0.3s ease-in-out;
+    /* Smooth transition effect for background color */
+}
+
+
+/* Styles for offcanvas button */
+
+.offcanvas-btn {
+    background-color: #6b0086;
+    /* Purple background color */
+    color: white;
+    /* White text color */
+}
+
+
+/* Hover effect for offcanvas button */
+
+.offcanvas-btn:hover {
+    background-color: #deabe9;
+    /* Light purple background on hover */
+}
+
+
+/* Styles for the offcanvas body */
+
+.offcanvas-body {
+    overflow-y: auto;
+    /* Enables vertical scrolling */
+    max-height: calc(100vh - 56px);
+    /* Sets the max height to fit within the viewport */
+}
+
+
+/* Styles for the offcanvas container */
+
+.offcanvas {
+    background-color: #efeeff;
+    /* Light purple background */
+}
+
+
+/* Styles for the offcanvas header */
+
+.offcanvas-header {
+    font-family: 'open_sans_condensedbold';
+    /* Sets font to 'Open Sans Condensed Bold' */
+    font-size: 18px;
+    /* Sets font size to 18px */
+    color: #2b0076;
+    /* Dark purple color for text */
+    text-transform: uppercase;
+    /* Converts text to uppercase */
+    text-decoration: none;
+    /* Removes underline */
+    line-height: 1.0;
+    /* Sets line height to 1 */
+    letter-spacing: 0.7px;
+    /* Adds slight letter spacing */
+    padding: 30px 0px 25px 0px;
+    /* Adds padding to top and bottom */
+    margin: 0px 27px 0px 0px;
+    /* Adds right margin */
+    background: transparent;
+    /* Makes the background transparent */
+    border: none;
+    /* Removes border */
+    border-bottom: 3px solid #2b0076;
+    /* Adds bottom border with dark purple color */
+    text-align: center;
+    /* Centers the text */
+    background-color: #efeeff;
+    /* Sets background color */
+    width: 100%;
+    /* Ensures full width */
+}
+
+
+/* Custom button with small padding and font size */
+
+.custom-btn {
+    padding: 0.25rem 0.5rem;
+    /* Adds small padding */
+    font-size: 0.75rem;
+    /* Sets font size to 0.75rem */
+}
+
+/* 
+ * Custom extra-small button style 
+ * Used to create a more compact button than Bootstrap's btn-sm for < << > >> supplier item html
+ */
+.btn-xs {
+    padding: 0.2rem 0.4rem;     /* Smaller vertical and horizontal padding */
+    font-size: 0.75rem;         /* Reduced font size for compact appearance */
+    line-height: 1;             /* Tight line height to avoid extra vertical space */
+    border-radius: 0.2rem;      /* Slightly rounded corners for consistency with Bootstrap style */
+}
+/* Title styling */
+.swal2-title {
+    font-weight: bold;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Popup box styling */
+  .swal2-popup {
+    border-radius: 0.5rem;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Confirm and Cancel buttons styling */
+  .swal2-confirm,
+  .swal2-cancel {
+    font-weight: bold;
+    border-radius: 0.4rem;
+    padding: 4px 10px !important;
+    font-size: 15px !important;
+    height: auto !important;
+  }
+  
+  /* Error message or any HTML content styling */
+  .swal2-html-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+.custom-menu-card {
+  max-width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.custom-menu-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(0, 123, 255, 0.3);
+}
+
+.custom-menu-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto;
+  transition: transform 0.5s ease;
+}
+
+.custom-menu-card .card-body {
+  font-size: 0.85rem;
+  padding: 0.75rem;
+}

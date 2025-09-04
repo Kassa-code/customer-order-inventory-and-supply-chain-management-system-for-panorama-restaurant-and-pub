@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<!-- Main HTML body for Garbage Remove UI -->
+
+<body>
+
+    <!-- Top Navigation Bar Fragment -->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <div class="container-fluid">
+        <!-- Page Header Row -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-dumpster"></i> Garbage Remove</h2>
+            </div>
+        </div><br>
+
+        <!-- Add Button Section -->
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button to trigger offcanvas form -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasGarbageForm">
+                        <i class="fa-solid fa-plus"></i> ADD A NEW GARBAGE REMOVE
+                    </button>
+                    <small class="text-muted d-block mt-2">Click this to add a new garbage remove</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-container" id="tableGarbageRemove">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <!-- Column headers -->
+                                    <th>#</th>
+                                    <th>Item Name</th>
+                                    <th>Batch No</th>
+                                    <th>Removed Qty</th>
+                                    <th>Removed Date</th>
+                                    <th>Removed Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableGarbageRemoveBody">
+                                <!-- Dynamic rows will be injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Offcanvas Form Section for Garbage Removal Entry -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasGarbageForm" role="dialog">
+
+        <!-- Offcanvas Header -->
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-center w-100"><i class="fa-solid fa-dumpster"></i> Garbage Remove Details
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <!-- Offcanvas Body with Form -->
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <form id="formgarbageremove" onsubmit="return false">
+                        <!-- Required Field Note -->
+                        <div class="row mt-2">
+                            <div class="col-12 fw-bold mt-2">
+                                <p class="text-end">Required <span class="text-danger">*</span></p>
+                            </div>
+                        </div>
+
+                       
+                                <!-- Item Dropdown -->
+                                <div class="row mt-2">
+                                    <div class="col-4 fw-bold">
+                                        <label for="selectItem" class="form-label fw-bold">Item Name : <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select name="selectItem" required id="selectItem" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'garbageremove','inventory_id'); filterFromBatch();">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Batch No and Out Qty Fields -->
+                                <div class="row mt-2">
+                                    <!-- Batch Selector -->
+                                     <div class="col-4 fw-bold">
+                                        <label for="selectBatchNo" class="form-label fw-bold">Batch No : <span class="text-danger">*</span></label>
+                                     </div>
+                                    <div class="col-8 fw-bold">
+                                        <select id="selectBatchNo" class="form-select" required
+                                            onchange="selectDynamicElementValidator(this,'garbageremove','inventory_id')">
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Removed Quantity Input -->
+                                <div class="row mt-2">
+                                    <div class="col-4 fw-bold">
+                                        <label for="textRemovedQty" class="form-label fw-bold">Removed Qty :
+                                            <span class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" id="textRemovedQty"
+                                            placeholder="Enter Removed Qty"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.]{0,1}[0-9]{2}))$','garbageremove','removed_qty')"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <!-- Removed Date Picker -->
+                                <div class="row mt-2">
+                                    <div class="col-4 fw-bold">
+                                        <label for="dteRemovedDte" class="form-label">Removed Date : <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input onkeydown="return false"
+                                            onchange="dateElementValidator(this,'garbageremove','removed_date')"
+                                            type="date" id="dteRemovedDte" required class="form-control"
+                                            name="dteReceiptDate">
+                                    </div>
+                                </div>
+
+                                <!-- Removed Reason Textarea -->
+                                <div class="row mt-2">
+                                    <div class="col-4 fw-bold">
+                                        <label for="textRemovedReason" class="form-label fw-bold">Removed Reason
+                                            : <span class="text-danger">*</span></label>
+                                    </div>
+                                    <div class="col-8">
+                                        <textarea class="form-control" id="textRemovedReason"
+                                            placeholder="Enter Removed Reason"
+                                            onkeyup="commonTextValidator(this,'^([A-Za-z0-9\/]{1,20}[.]?[\s]?)+$','garbageremove','removed_reason')"></textarea>
+                                    </div>
+                                </div>
+                           
+
+                        <!-- Action Buttons -->
+                        <div class="row mt-4">
+                            <div class="col-3 text-start">
+                                <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                    onclick="clearGarbageRemoveForm()">
+                                    <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                </button>
+                            </div>
+                            <div class="col-9 text-end">
+                                <button type="submit" id="btnGRSubmit"
+                                    class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                    onclick="buttonGarbageRemoveSubmit(this)">
+                                    <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                </button>
+                            </div>
+                        </div> <br><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Offcanvas Form -->
+
+    <!-- JavaScript Resources -->
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/garbageremove.js"></script>
+
+</body>
+
+</html>

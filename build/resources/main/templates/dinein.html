@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<!-- Insert CSS and head JS here -->
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ======================= Page Header Row ======================= -->
+        <!-- Row Start: Page Header -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-chess-board"></i> Dine In</h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <!-- Dine-In Tables Display -->
+            <div class="row mt-4" id="dineInTableContainer">
+                <!-- JS will fill this -->
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/dinein.js"></script>
+
+</body>
+
+</html>

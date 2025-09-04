@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    
+    <!-- Link Css File -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+    <nav th:replace="topnavbar :: topNavBarFragment"></nav>
+    <!-- Bootstrap Navigation Bar End-->
+
+
+    <!-- Dashboard body start-->
+    <div class="container py-4">
+
+        <div class="row mt-2">
+            <div class="col-12 fw-bold dashboard-heading text-center">
+                <h2><i class="fa-solid fa-handshake"></i> Welcome to Panorama Restaurant & Pub</h2>
+            </div>
+        </div>
+
+        <div class="row g-4 dashboard-cards">
+    
+        <!-- Order -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="Order">
+            <a href="/order" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Add new Order</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Payment -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="Customer_Payment">
+            <a href="/customerpayment" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Add new Payment</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Kitchen -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="Kitchen">
+            <a href="/kitchen" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Kitchen And Bar</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Menu -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="Menu_View">
+            <a href="/menuview" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Menu </h6>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Delivery -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Delivery">
+                <a href="/delivery" class="text-decoration-none text-dark">
+                    <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                        <div class="card-body">
+                            <h6 class="card-title fw-semibold text-uppercase">Add new Delivery</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Dine In -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Dine_In">
+            <a href="/dinein" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Dine In</h6>
+                    </div>
+                </div>
+            </a>
+            </div>
+    
+            <!-- Pick Up -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Pick_Up_Orders">
+                <a href="/pickupview" class="text-decoration-none text-dark">
+                    <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                        <div class="card-body">
+                            <h6 class="card-title fw-semibold text-uppercase">Pick Up Orders</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+    
+            <!-- Deliveries -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Delivery_Orders">
+            <a href="/deliveryview" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Delivery Orders</h6>
+                    </div>
+                </div>
+            </a>
+            </div>
+    
+            <!-- Take Away -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Take_Away_Orders">
+            <a href="/takeawayview" class="text-decoration-none text-dark">
+                <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                    <div class="card-body">
+                        <h6 class="card-title fw-semibold text-uppercase">Take Away Orders</h6>
+                    </div>
+                </div>
+            </a>
+            </div>
+            <!--  Dine in -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="Dine_In_Orders">
+                <a href="/dineinordersview" class="text-decoration-none text-dark">
+                    <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                        <div class="card-body">
+                            <h6 class="card-title fw-semibold text-uppercase">Dine In Orders</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- All Orders -->
+            <div class="col-sm-6 col-md-4 col-lg-3" id="All_Orders">
+                <a href="/allordersview" class="text-decoration-none text-dark">
+                    <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                        <div class="card-body">
+                            <h6 class="card-title fw-semibold text-uppercase">All Orders</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3" id="All_Orders">
+                <a href="/servicechargeordersview" class="text-decoration-none text-dark">
+                    <div class="card border border-2 rounded-3 text-center py-4 h-100">
+                        <div class="card-body">
+                            <h6 class="card-title fw-semibold text-uppercase">Service Charge Orders</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Dashboard body end-->
+
+    <!-- Form validation functions -->
+    <script src="/js/commonFunction.js "></script>
+    <!-- General utility functions -->
+
+   <script>
+    // Add an event listener that triggers when the browser finishes loading the entire page (DOM fully loaded).
+    window.addEventListener("load", () => {
+
+        // Call a function to send a synchronous HTTP request to the backend endpoint '/modulewithoutuser'
+        // This function should return a list of module objects where the user doesn't have select privileges.
+        modulelist = getServiceRequest('/modulewithoutuser');
+
+        // Loop through each module in the returned module list
+        for (const module of modulelist) {
+
+            // Hide any HTML element whose ID matches the module name by setting its CSS display property to 'none'.
+            // Example: if module.name is 'dashboard', it will hide the element with id="dashboard".
+            $(`#${module.name}`).css("display", "none");
+
+        }
+    });
+</script>
+
+
+
+</body>
+
+</html>

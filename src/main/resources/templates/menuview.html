@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ========== Begin Original Content ========== -->
+        
+        <!-- Sub Menu Cards Container -->
+        <div class="container">
+            <div class="row mt-2 p-2">
+                <div class="col-12 fw-bold header p-2">
+                    <a href="#subMenuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                        <h2 class="mb-0">
+                            <i class="fa-brands fa-elementor"></i> Sub Menu
+                        </h2>
+                    </a>
+                </div>
+            </div>
+            <div class="collapse show" id="subMenuCollapse">
+                <div class="row mt-2 p-2" id="subMenuCardContainer">
+                    <!-- JS dynamically adds sub menu cards -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Liquor Menu Cards Container -->
+        <div class="container">
+            <div class="row mt-2 p-2">
+                <div class="col-12 fw-bold header p-2">
+                    <a href="#liquorMenuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                        <h2 class="mb-0">
+                            <i class="fa-solid fa-champagne-glasses"></i> Liquor Menu
+                        </h2>
+                    </a>
+                </div>
+            </div>
+            <div class="collapse show" id="liquorMenuCollapse">
+                <div class="row mt-2 p-2" id="liquorMenuCardContainer">
+                    <!-- JS dynamically adds liquor menu cards -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Menu Cards Container -->
+        <div class="container">
+            <div class="row mt-2 p-2">
+                <div class="col-12 fw-bold header p-2">
+                    <a href="#menuCollapse" data-bs-toggle="collapse" class="text-decoration-none text-reset">
+                        <h2 class="mb-0">
+                            <i class="fa-solid fa-file-contract"></i> Menu
+                        </h2>
+                    </a>
+                </div>
+            </div>
+            <div class="collapse show" id="menuCollapse">
+                <div class="row mt-2 p-2" id="menuCardContainer">
+                    <!-- JS dynamically adds menu cards -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== End Original Content ========== -->
+    </div>
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/menuview.js"></script>
+
+</body>
+
+</html>

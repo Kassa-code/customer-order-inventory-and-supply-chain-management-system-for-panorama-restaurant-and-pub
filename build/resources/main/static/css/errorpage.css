@@ -1,0 +1,63 @@
+/* Ensures the body and html elements take up the full height and removes default margin */
+body, html {
+    height: 100%; /* Makes the body and html take up full viewport height */
+    margin: 0; /* Removes the default margin */
+}
+
+/* Class to set height to full viewport height */
+.vh-100 {
+    height: 100vh; /* Sets the element’s height to 100% of the viewport height */
+}
+
+/* Centers text horizontally */
+.text-center {
+    text-align: center; /* Aligns text to the center */
+}
+
+/* Makes images responsive, scaling them to fit the width of their container */
+.img-fluid {
+    max-width: 100%; /* Ensures the image does not exceed the container width */
+    height: auto; /* Maintains the aspect ratio */
+}
+
+/* Enables relative positioning for elements */
+.position-relative {
+    position: relative; /* Allows positioning of child elements relative to this element */
+}
+
+/* Enables absolute positioning for elements */
+.position-absolute {
+    position: absolute; /* Positions element absolutely relative to its closest positioned ancestor */
+}
+
+/* Aligns the element to the bottom */
+.bottom-0 {
+    bottom: 0; /* Positions the element at the bottom of its containing element */
+}
+
+/* Aligns the element to the right */
+.end-0 {
+    right: 0; /* Positions the element at the right side of its containing element */
+}
+
+/* Centers an element horizontally with respect to its parent */
+.translate-middle-x {
+    transform: translateX(-50%); /* Translates the element horizontally by 50% of its own width */
+}
+
+/* Style for the 'Go Back to Home' link */
+.go-back-link {
+    display: inline-block; /* Makes the link behave like an inline block */
+    font-size: 1.2rem; /* Sets font size to 1.2 rem */
+    color: #7e57c2; /* Purple color */
+    font-weight: bold; /* Makes the font bold */
+    text-decoration: none; /* Removes underline from the link */
+    padding: 5px 0; /* Adds vertical padding */
+    margin-bottom: 10px; /* Adds margin below the link */
+}
+
+/* Hover effect for the 'Go Back to Home' link */
+.go-back-link:hover {
+    color: #ba68c8; /* Changes color to a lighter purple when hovered */
+    cursor: pointer; /* Changes the cursor to a pointer to indicate a clickable element */
+}

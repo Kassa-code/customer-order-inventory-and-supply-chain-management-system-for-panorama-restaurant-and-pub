@@ -1,0 +1,47 @@
+<!-- CSS & HEAD JS Fragment -->
+
+<head th:fragment="headResourcesLinks">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}"></title>
+
+    <!-- Bootstrap CSS for layout and components -->
+    <link rel="stylesheet" href="/bootstrap-5.2.3/css/bootstrap.min.css">
+
+    <!-- FontAwesome for icon support -->
+    <link rel="stylesheet" href="/fontawesome-free-6.6.0/css/all.min.css">
+
+    <!-- DataTables CSS for advanced table features -->
+    <link rel="stylesheet" href="/datatables-2.1.8/datatables.min.css">
+
+    <!-- SweetAlert CSS for styled alert boxes -->
+    <link rel="stylesheet" href="/sweetalert2-11.17.2/dist/sweetalert2.min.css">
+
+    <!-- jQuery library (required for many plugins) -->
+    <script src="/jQuery/jquery-3.7.1.js"></script>
+
+    <!-- Bootstrap JS bundle (includes Popper.js) -->
+    <script src="/bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="/datatables-2.1.8/datatables.min.js"></script>
+
+    <!-- SweetAlert2 JavaScript -->
+    <script src="/sweetalert2-11.17.2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Inline JavaScript to load the logged-in user's photo -->
+    <script th:inline="javaScript">
+        window.addEventListener("load", () => {
+            let userLoggedPhoto = /*[[${loggeduserphoto}]]*/ 'loggeduserphoto'; // Load the user's photo from model
+
+            console.log(userLoggedPhoto);
+
+            // If photo exists, decode base64 and assign it to the img element (assumes imgLoggedUserPhoto is defined in DOM)
+            if (userLoggedPhoto != null) {
+                imgLoggedUserPhoto.src = atob(userLoggedPhoto);
+            }
+        });
+    </script>
+
+</head>

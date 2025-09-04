@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+
+<body>
+    <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+    <!-- Bootstrap Navigation Bar End-->
+
+    <div class="container-fluid">
+        <!-- ======================= Page Header Row ======================= -->
+        <!-- Row Start: Page Header -->
+        <div class="row mt-2">
+            <div class="col-12 fw-bold header p-2">
+                <h2><i class="fa-solid fa-table-list"></i> Ingredients Management</h2>
+            </div>
+        </div><br>
+        <!-- Row End: Page Header -->
+
+        <!-- ======================= Add Button Section ======================= -->
+        <!-- Row Start: Add New Item Button -->
+        <div class="card p-3">
+            <!-- Row Start: Button and Tooltip -->
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Triggers the offcanvas form -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasItemForm">
+                        <i class="fa-solid fa-plus"></i> ADD A NEW ITEM
+                    </button>
+                    <small class="text-muted d-block mt-2">Click this to add a new item</small>
+                </div>
+            </div>
+            <!-- Row End: Button and Tooltip -->
+        </div>
+        <!-- Row End: Add New Item Button -->
+
+        <!-- ======================= Table Display Section ======================= -->
+        <!-- Row Start: Data Table -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-striped table-container" id="tableItem">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <!-- Table Headers -->
+                                    <th>#</th>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <th>Re-Order Point</th>
+                                    <th>Re-Order Quantity</th>
+                                    <th>Purchase Price</th>
+                                    <th>Sales Price</th>
+                                    <th>Status</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <!-- Table Body: Filled dynamically via JS -->
+                            <tbody class="custom-tbody fw-bold" id="tableItemBody">
+                                <!-- Item rows dynamically inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Ingredient Status Icons Explanation (Inside the Card Footer) -->
+                    <div class="card-footer text-center">
+                        <!-- &nbsp; adds space, | is a separator, and another &nbsp; ensures spacing on both sides -->
+                        <i class="fa-solid fa-cubes-stacked fa-lg text-success"></i>
+                        <span class="ms-2">Available</span>
+                        &nbsp;
+                        <i class="fa-solid fa-cubes-stacked fa-lg text-warning"></i>
+                        <span class="ms-2">Not-Available</span> &nbsp;
+                        <i class="fa-solid fa-cubes-stacked fa-lg text-danger"></i>
+                        <span class="ms-2">Removed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Row End: Data Table -->
+    </div>
+
+    <!-- ======================= Offcanvas Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 75%" tabindex="-1" id="offcanvasItemForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100">
+                        <i class="fa-solid fa-table-list"></i> Item Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Ingredient Form -->
+                            <form id="formIngredient" onsubmit="return false">
+                                <!-- ======================= Required Note Row =================== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">
+                                            Required <span class="text-danger">*</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Item Basic Info ======================= -->
+                                <div class="row mt-2 align-items-end">
+                                    <!-- Item Category Dropdown -->
+                                    <div class="col-4" id="selectItemCategoryGroup">
+                                        <label for="selectItemCategory" class="form-label fw-bold">
+                                            Item Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select name="selectItemCategory" onchange="generateItemName()" required
+                                                id="selectItemCategory" class="form-select rounded-end-0">
+                                                <option selected disabled>
+                                                    Select Item Category
+                                                </option>
+                                            </select>
+                                            <span class="input-group-text text-success fw-bold rounded-start-0"
+                                                role="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasCategoryForm" style="cursor: pointer">
+                                                +
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Brand Dropdown -->
+                                    <div class="col-4" id="selectItemBrandGroup">
+                                        <label for="selectItemBrand" class="form-label fw-bold">
+                                            Item Brand : <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select name="selectItemBrand" required id="selectItemBrand"
+                                                class="form-select rounded-end-0"
+                                                onchange="selectDynamicElementValidator(this,'ingredient','brand_id');generateItemName();">
+                                                <option selected disabled>Select Item Brand</option>
+                                            </select>
+                                            <span class="input-group-text text-success fw-bold rounded-start-0"
+                                                role="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasBrandForm" style="cursor: pointer">
+                                                +
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Sub Category Dropdown -->
+                                    <div class="col-4" id="selectItemSubCategoryGroup">
+                                        <label for="selectItemSubCategory" class="form-label fw-bold">
+                                            Item Sub Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <select name="selectItemSubCategory" required id="selectItemSubCategory"
+                                                class="form-select rounded-end-0"
+                                                onchange="selectDynamicElementValidator(this,'ingredient','ingredient_subcategory_id');generateItemName();">
+                                                <option selected disabled>
+                                                    Select Item Sub Category
+                                                </option>
+                                            </select>
+                                            <span class="input-group-text text-success fw-bold rounded-start-0"
+                                                role="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasSubCategoryForm" style="cursor: pointer">
+                                                +
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Package, Unit, Status ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Package Type -->
+                                    <div class="col-3" id="selectItemPackageTypeGroup">
+                                        <label for="selectItemPackageType" class="form-label fw-bold">Item Package Type
+                                            :
+                                            <span class="text-danger">*</span></label>
+                                        <select name="selectItemPackageType" required id="selectItemPackageType"
+                                            onchange="selectDynamicElementValidator(this,'ingredient','package_type_id');generateItemName();"
+                                            class="form-select">
+                                            <option selected disabled>
+                                                Select Item Package Type
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Item Unit (text + dropdown) -->
+                                    <div class="col-6" id="selectItemUnitGroup">
+                                        <label for="selectItemUnitType" class="form-label fw-bold">Item Unit : <span
+                                                class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="textItemSize"
+                                                placeholder="Enter Item Type"
+                                                onkeyup="commonTextValidator(this,'^[0-9][0-9]{0,3}[.]{0,1}[0-9]{0,3}$','ingredient','unitsize');generateItemName()"
+                                                required />
+                                            <select name="selectItemUnitType" required id="selectItemUnitType"
+                                                onchange="selectDynamicElementValidator(this,'ingredient','unit_type_id');generateItemName();"
+                                                class="form-select">
+                                                <option selected disabled>
+                                                    Select Item Unit Type
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Status -->
+                                    <div class="col-3" id="selectItemStatusGroup">
+                                        <label for="selectItemStatus" class="form-label fw-bold">Item Status : <span
+                                                class="text-danger">*</span></label>
+                                        <select name="selectItemStatus" required id="selectItemStatus"
+                                            onchange="selectDynamicElementValidator(this,'ingredient','status_id');"
+                                            class="form-select">
+                                            <option selected disabled>Select Item Status</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Item Name ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Item Name Label -->
+                                    <div class="col-3" id="textItemNameLabelGroup">
+                                        <label class="form-label fw-bold" for="textItemName">Item Name : <span
+                                                class="text-danger">*</span></label>
+                                    </div>
+                                    <!-- Item Name Input -->
+                                    <div class="col-9" id="textItemNameInputGroup">
+                                    <input type="text" class="form-control" id="textItemName" placeholder="Enter Item Name"
+                                        onkeyup="commonTextValidator(this, '^([A-Za-z0-9/\'\\/]{2,20})(\\s[A-Za-z0-9/\'\\/]{2,20})*$', 'ingredient', 'itemname')"
+                                        required />
+
+
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Quantity and Pricing ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Re-Order Point -->
+                                    <div class="col" id="textRopGroup">
+                                        <label for="textRop" class="form-label fw-bold">Re-Order Point :
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textRop"
+                                            placeholder="Enter Re-Order Point"
+                                            onkeyup="commonTextValidator(this,'^[1-9][0-9]{0,3}[.]{0,1}[0-9]{0,3}$','ingredient','rop')"
+                                            required />
+                                    </div>
+                                    <!-- Re-Order Quantity -->
+                                    <div class="col" id="textRoqGroup">
+                                        <label for="textRoq" class="form-label fw-bold">Re-Order Quantity :
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textRoq"
+                                            placeholder="Enter Re-Order Quantity"
+                                            onkeyup="commonTextValidator(this,'^[1-9][0-9]{0,3}[.]{0,1}[0-9]{0,3}$','ingredient','roq')"
+                                            required />
+                                    </div>
+                                    <!-- Purchase Price -->
+                                    <div class="col" id="textPurchasePriceGroup">
+                                        <label for="textPurchasePrice" class="form-label fw-bold">Purchase Price :
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textPurchasePrice"
+                                            placeholder="Enter Purchase Price"
+                                            onkeyup="commonTextValidator(this,'^(([0-9][0-9]{0,5})|([1-9][0-9]{0,5}[.][0-9]{0,2}))$','ingredient','purchasesprice')"
+                                            required />
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Profit, Sales, Discount ======================= -->
+                                <div class="row mt-2" id="textProfitRatioGroup">
+                                    <!-- Profit Ratio -->
+                                    <div class="col">
+                                        <label class="form-label fw-bold">Profit Ratio :
+                                            <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textProfitRatio"
+                                            placeholder="Enter Profit Ratio"
+                                            onkeyup="commonTextValidator(this,'^(([0-9][0-9]{0,2})|([1-9][0-9]{0,2}[.][0-9]{0,2}))$','ingredient','profitratio');generateSalesPrice();"
+                                            required />
+                                    </div>
+                                    <!-- Sales Price -->
+                                    <div class="col" id="textSalesPriceGroup">
+                                        <label class="form-label fw-bold">Sales Price : <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textSalesPrice"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,3})|([1-9][0-9]{0,3}[.][0-9]{0,2}))$','ingredient','salesprice')"
+                                            placeholder="Enter Sales Price" required />
+                                    </div>
+                                    <!-- Discount Ratio -->
+                                    <div class="col" id="textDiscountRatioGroup">
+                                        <label class="form-label fw-bold">Discount Ratio :
+                                        </label>
+                                        <input type="text" class="form-control" id="textDiscountRatio"
+                                            placeholder="Enter Discount Ratio"
+                                            onkeyup="commonTextValidator(this,'^(([1-9][0-9]{0,2})|([1-9][0-9]{0,2}[.][0-9]{0,2}))$','ingredient','discountratio')"
+                                            required />
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Notes and Misc ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Note Textarea -->
+                                    <div class="col-9" id="textNoteGroup">
+                                        <label class="form-label fw-bold">Note :</label>
+                                        <textarea type="text" class="form-control" id="textNote"
+                                            placeholder="Enter Note"
+                                            onkeyup="commonTextValidator(this,'^[A-Za-z0-9\\s\\.\\,\\!\\?\\()\\/\\-]{1,200}$','ingredient','note')"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Buttons ======================= -->
+                                <div class="row mt-4">
+                                    <!-- Clear Button -->
+                                    <div class="col-3 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold"
+                                            onclick="clearIngredientForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <!-- Submit/Update Buttons -->
+                                    <div class="col-9 text-end">
+                                        <button type="submit" id="buttonUpdate"
+                                            class="custom-btn btn btn-outline-warning me-2 fw-bold btn-sm"
+                                            onclick="buttonIngredientUpdate(this)">
+                                            <i class="fa-solid fa-user-pen fa-sm"></i> Update
+                                        </button>
+                                        <button type="submit" id="buttonSubmit"
+                                            class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonIngredientSubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======================End Offcanvas Form ======================= -->
+
+
+    <!-- Off-Canvas for View Ingredient Details -->
+    <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasIngredientView" data-bs-backdrop="static"
+        data-bs-keyboard="false">
+        <div class="offcanvas-header d-flex justify-content-center w-100">
+            <h5 class="offcanvas-title text-center flex-grow-1">
+                <i class="fa-solid fa-cubes-stacked"></i> View Ingredient Details
+            </h5>
+            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover table-container table-bordered" id="tableIngredientView">
+                        <tr>
+                            <th>Item Name</th>
+                            <td id="tdTextItemName"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Item Category</th>
+                            <td id="tdItemCategory"></td>
+                        </tr>
+                        <tr>
+                            <th>Item Brand</th>
+                            <td id="tdItemBrand"></td>
+                        </tr>
+                        <tr>
+                            <th>Item Sub-Category</th>
+                            <td id="tdItemSubCategory"></td>
+                        </tr>
+                        <tr>
+                            <th>Item Package-Type</th>
+                            <td id="tdItemPackageType"></td>
+                        </tr>
+                        <tr>
+                            <th>Item Status</th>
+                            <td id="tdItemStatus"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Re Order Point</th>
+                            <td id="tdItemRop"></td>
+                        </tr>
+                        <tr>
+                            <th>Re Order Quantity</th>
+                            <td id="tdItemRoq"></td>
+                        </tr>
+                        <tr>
+                            <th>Purchase Price</th>
+                            <td id="tdItemPurchasePrice"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-footer text-end p-3">
+                    <button class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="buttonPrintRow()">
+                        <i class="fa-solid fa-print fa-sm"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ======================= Offcanvas Item Category Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 35%" tabindex="-1" id="offcanvasCategoryForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100">
+                        <i class="fa-solid fa-table-list"> </i> Category Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Ingredient Form -->
+                            <form id="formCategory" onsubmit="return false">
+                                <!-- ======================= Required Note Row =================== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">
+                                            Required <span class="text-danger">*</span>
+                                        </p>
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Item Name ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Item Name Label -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold" for="textCategoryName">Category Name :
+                                            <span class="text-danger">*</span></label>
+    
+                                        <input type="text" class="form-control" id="textCategoryName"
+                                            placeholder="Enter Category Name"
+                                            onkeyup="commonTextValidator(this,'^([A-Z][a-z]{1,20}[\\s])+([A-Z][a-z]{2,20})$','ingredientcategory','name')"
+                                            required />
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Buttons ======================= -->
+                                <div class="row mt-4">
+                                    <div class="col-3 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="clearCategoryForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <!-- Submit/Update Buttons -->
+                                    <div class="col-9 text-end">
+                                        <button type="submit" class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonCategorySubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======================End Offcanvas Category Form ======================= -->
+    
+    
+    <!-- ======================= Offcanvas Brand Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 35%" tabindex="-1" id="offcanvasBrandForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100">
+                        <i class="fa-solid fa-table-list"> </i> Brand Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Ingredient Form -->
+                            <form id="formBrand" onsubmit="return false">
+                                <!-- ======================= Required Note Row =================== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">
+                                            Required <span class="text-danger">*</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- ======================= Item Category ======================= -->
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <label for="selectNCategory" class="form-label fw-bold">
+                                            Item Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <select required name="selectNCategory" id="selectNCategory" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'ingredientsubcategory','ingredient_category_id')">
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Item Brand ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Item Name Label -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold" for="textBrandName">Brand Name :
+                                            <span class="text-danger">*</span></label>
+    
+                                        <input type="text" class="form-control" id="textBrandName"
+                                            placeholder="Enter Brand Name"
+                                            onkeyup="commonTextValidator(this,'^([A-Z][a-z]{1,20}[\\s])+([A-Z][a-z]{2,20})$','ingredientbrand','name')"
+                                            required />
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Buttons ======================= -->
+                                <div class="row mt-4">
+                                    <div class="col-3 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="clearBrandForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <!-- Submit/Update Buttons -->
+                                    <div class="col-9 text-end">
+                                        <button type="submit" class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonBrandSubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======================End Offcanvas Brand Form ======================= -->
+    
+    
+    <!-- ======================= Offcanvas Sub-Category Form ======================= -->
+    <div class="offcanvas offcanvas-end" style="width: 35%" tabindex="-1" id="offcanvasSubCategoryForm" role="dialog">
+        <div class="offcanvas-content">
+            <div class="offcanvas-dialog">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100">
+                        <i class="fa-solid fa-table-list"> </i> Sub-Category Details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+    
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Ingredient Form -->
+                            <form id="formSubCategory" onsubmit="return false">
+                                <!-- ======================= Required Note Row =================== -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold mt-2">
+                                        <p class="text-end">
+                                            Required <span class="text-danger">*</span>
+                                        </p>
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Item Category ======================= -->
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <label for="selectNewCategory" class="form-label fw-bold">
+                                            Item Category : <span class="text-danger">*</span>
+                                        </label>
+                                        <select required name="selectNewCategory" id="selectNewCategory" class="form-select"
+                                            onchange="selectDynamicElementValidator(this,'ingredientsubcategory','ingredient_category_id')">
+                                        </select>
+                                    </div>
+                                </div>
+    
+                                <!-- ======================= Item SubCategory ======================= -->
+                                <div class="row mt-2">
+                                    <!-- Item Name Label -->
+                                    <div class="col-12">
+                                        <label class="form-label fw-bold" for="textSubCategory">Sub Category : <span
+                                                class="text-danger">*</span></label>
+    
+                                        <input type="text" class="form-control" id="textSubCategory"
+                                            placeholder="Enter Sub-Category"
+                                            onkeyup="commonTextValidator(this,'^([A-Z][a-z]{1,20})[\\s]||([A-Z][a-z]{1,20})*$','ingredientsubcategory','name')"
+                                            required />
+                                    </div>
+                                </div> <br>
+    
+                                <!-- ======================= Buttons ======================= -->
+                                <div class="row mt-4">
+                                    <div class="col-3 text-start">
+                                        <button type="button" class="custom-btn btn btn-outline-info btn-sm fw-bold" onclick="clearSubCategoryForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <!-- Submit/Update Buttons -->
+                                    <div class="col-9 text-end">
+                                        <button type="submit" class="custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonSubCategorySubmit(this)">
+                                            <i class="fa-solid fa-paper-plane fa-sm"></i> Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======================End Offcanvas Sub-Category Form ======================= -->
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+    <script src="/uicontroller/ingredient.js"></script>
+</body>
+
+</html>

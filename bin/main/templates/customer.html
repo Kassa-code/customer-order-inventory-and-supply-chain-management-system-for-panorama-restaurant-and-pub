@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Insert CSS and head JS here -->
+
+<head th:replace="~{fragmentlinks :: headResourcesLinks}"></head>
+
+<head>
+    <!-- Custom CSS files -->
+    <link rel="stylesheet" href="/css/employee.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+</head>
+<body>
+
+     <!-- Bootstrap Navigation Bar Start-->
+    <div th:replace="~{topnavbar :: topNavBarFragment}"></div>
+
+     <!-- Bootstrap Navigation Bar End-->
+ 
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12 fw-bold header p-2">
+                <h2> <i class="fa-solid fa-user-tie"></i> Customer Management</h2>
+            </div>
+        </div><br>
+
+
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-12 text-end">
+                    <!-- Button trigger offcanvas -->
+                    <button type="button" class="btn offcanvas-btn fw-bold" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasCustomerForm">
+                        <i class="fa-solid fa-user-plus"></i> ADD A NEW CUSTOMER
+                    </button>
+                    <!-- Helping text below the button -->
+                    <small class="text-muted d-block mt-2">Click this to add a new customer</small>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-script table-container table-bordered" id="tableCustomer">
+                            <thead class="custom-thead fw-bold">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Mobile Number</th>
+                                    <th>Name</th>
+                                    <th>Modify</th>
+                                </tr>
+                            </thead>
+                            <tbody class="custom-tbody fw-bold" id="tableCustomerBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Form Off canvas -->
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="offcanvasCustomerForm">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title text-center w-100" ><i
+                            class="fa-solid fa-user-tie"></i> Customer Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Actions / methods -->
+                            <form id="formCustomer" onsubmit="return false">
+                                <!-- Required mark start -->
+                                <div class="row mt-2">
+                                    <div class="col-12 fw-bold text-end">
+                                        <p>Required <span class="text-danger">*</span></p>
+                                    </div>
+                                </div>
+                                <!-- Required mark end -->
+
+                                <!-- Designation & Employee Status Start -->
+                                <div class="row mt-2">
+                                    <div class="col">
+                                        <label for="textCustomerName" class="form-label fw-bold">Customer Name : <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="textCustomerName" placeholder="Enter Customer Name"
+                                        onkeyup="commonTextValidator(this,'^([A-Z][a-z]{1,20}[\\s])+([A-Z][a-z]{2,20})$','customer','name')">
+                                    </div>
+
+                                    <div class="col">
+                                        <label for="textMobile" class="form-label fw-bold">Mobile Number : <span class="text-danger">*</span></label>
+                                        <input type="text" placeholder="Enter Mobile Number" id="textMobile" class="form-control"
+                                            onkeyup="commonTextValidator(this,'^[0][7][01245678][0-9]{7}$','customer','contactno')">
+                                    </div>
+
+                                  
+                                </div><br>
+                        
+                                <!-- Add/Update/Delete/Submit Buttons Start -->
+                                <div class="row mt-2">
+
+                                    <div class="col-3 text-start">
+                                        <button type="button" class=" custom-btn btn btn-outline-info btn-sm fw-bold" onclick="clearCustomerForm()">
+                                            <i class="fa-solid fa-recycle fa-sm"></i> Clear
+                                        </button>
+                                    </div>
+                                    <div class="col-9 text-end">
+
+                                        <button type="submit" id="buttonUpdate" onclick="buttonCustomerUpdate()"
+                                            class=" custom-btn btn btn-outline-warning me-2 fw-bold btn-sm">
+                                            <i class="fa-solid fa-user-check"></i> Update
+                                        </button>
+
+
+                                        <button type="submit" id="buttonSubmit" class=" custom-btn btn btn-outline-success fw-bold btn-sm"
+                                            onclick="buttonCustomerSubmit(this)">
+                                            Submit   <i class="fa-solid fa-paper-plane fa-sm"></i></i></button>
+                                    </div>
+                                </div>
+                                <!-- Add/Update/Delete/Submit Buttons End -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+
+    <script src="/js/commonTableFunction.js"></script>
+    <script src="/uicontroller/customer.js"></script>
+    <script src="/js/validationFunction.js"></script>
+    <script src="/js/commonFunction.js"></script>
+
+
+</body>
+
+</html>
